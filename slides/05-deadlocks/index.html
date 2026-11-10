@@ -1,0 +1,2632 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="BSc Electrical Engineering (Computer) · Semester VII · Module Data Storage and Analysis">
+      
+      
+        <meta name="author" content="Dr. Tesfamichael Gebregziabher">
+      
+      
+        <link rel="canonical" href="https://tesfamichael-g.github.io/ECEG-5202-Operating Systems/slides/05-deadlocks/">
+      
+      
+        <link rel="prev" href="../04-ipc-synchronization/">
+      
+      
+        <link rel="next" href="../06-memory-management/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>5. Deadlocks - ECEG-5202 - Operating Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eceg-5202" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-header__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ECEG-5202 - Operating Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Deadlocks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../syllabus/" class="md-tabs__link">
+        
+  
+    
+  
+  Syllabus
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+    
+  
+  Schedule
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../chapters/01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Chapters
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Slides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/" class="md-tabs__link">
+          
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../exam-bank/" class="md-tabs__link">
+        
+  
+    
+  
+  Exam Bank
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../assessment/" class="md-tabs__link">
+        
+  
+    
+  
+  Assessment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+    
+  
+  Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../feedback/" class="md-tabs__link">
+        
+  
+    
+  
+  Feedback
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-nav__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    ECEG-5202 - Operating Systems
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Syllabus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Chapters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chapters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Slides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Slides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-deadlocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 5 — Deadlocks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#51-what-is-a-deadlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 — What is a Deadlock?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-system-resource-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 — System Resource Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-the-four-coffman-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.3 — The Four Coffman Conditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-resource-allocation-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.4 — Resource Allocation Graph
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-51-detect-deadlock-from-a-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.1 — Detect deadlock from a RAG
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#55-deadlock-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.5 — Deadlock Prevention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56-deadlock-avoidance" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.6 — Deadlock Avoidance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#57-bankers-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.7 — Banker's Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-52-bankers-algorithm-safety-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.2 — Banker's algorithm safety check
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-53-bankers-algorithm-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.3 — Banker's algorithm request
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#58-deadlock-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.8 — Deadlock Detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-54-wait-for-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.4 — Wait-for graph
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59-deadlock-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.9 — Deadlock Recovery
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510-comparison-prevention-vs-avoidance-vs-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.10 — Comparison: Prevention vs Avoidance vs Detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#511-deadlock-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.11 — Deadlock in Practice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 5 — key takeaways
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-chapter-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next — Chapter 6
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../solutions/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Solutions
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exam-bank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exam Bank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Feedback
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-deadlocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 5 — Deadlocks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#51-what-is-a-deadlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 — What is a Deadlock?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-system-resource-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 — System Resource Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-the-four-coffman-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.3 — The Four Coffman Conditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-resource-allocation-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.4 — Resource Allocation Graph
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-51-detect-deadlock-from-a-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.1 — Detect deadlock from a RAG
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#55-deadlock-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.5 — Deadlock Prevention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56-deadlock-avoidance" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.6 — Deadlock Avoidance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#57-bankers-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.7 — Banker's Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-52-bankers-algorithm-safety-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.2 — Banker's algorithm safety check
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-53-bankers-algorithm-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.3 — Banker's algorithm request
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#58-deadlock-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.8 — Deadlock Detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-54-wait-for-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 5.4 — Wait-for graph
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59-deadlock-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.9 — Deadlock Recovery
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510-comparison-prevention-vs-avoidance-vs-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.10 — Comparison: Prevention vs Avoidance vs Detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#511-deadlock-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.11 — Deadlock in Practice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 5 — key takeaways
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-chapter-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next — Chapter 6
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="eceg-5202">ECEG-5202<a class="headerlink" href="#eceg-5202" title="Permanent link">&para;</a></h1>
+<h2 id="chapter-5-deadlocks">Chapter 5 — Deadlocks<a class="headerlink" href="#chapter-5-deadlocks" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="learning-outcomes">Learning outcomes<a class="headerlink" href="#learning-outcomes" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+1. State the **four Coffman conditions** and explain why each is necessary.
+
+</div>
+
+<div class="fragment">
+
+2. Draw a **resource allocation graph** and detect a deadlock in it.
+
+</div>
+
+<div class="fragment">
+
+3. Apply **deadlock prevention** by breaking one condition.
+
+</div>
+
+<div class="fragment">
+
+4. Execute the **Banker's algorithm** for deadlock avoidance.
+
+</div>
+
+<div class="fragment">
+
+5. Use **wait-for graphs** and detection algorithms to find deadlocks.
+
+</div>
+
+<div class="fragment">
+
+6. Compare **prevention**, **avoidance**, and **detection** on overhead and utilisation.
+
+</div>
+
+<hr />
+<h2 id="51-what-is-a-deadlock">5.1 — What is a Deadlock?<a class="headerlink" href="#51-what-is-a-deadlock" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition (Silberschatz §7.1)</summary>
+<p>A <strong>deadlock</strong> is a set of blocked processes, each holding a resource and waiting to acquire a resource held by another process in the set.</p>
+</details>
+<div class="fragment">
+
+???+ note "The simplest example"
+    Two processes, two resources:
+
+    | Time | P1 | P2 |
+    |---|---|---|
+    | 1 | acquires R1 | |
+    | 2 | | acquires R2 |
+    | 3 | waits for R2 | |
+    | 4 | | waits for R1 |
+
+    Both processes wait forever. **Deadlock.**
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Deadlock requires real resources"
+    Resources must be **unshareable** (mutex-held). Shareable resources (read-only files, CPU time slices) cannot cause deadlock. The problem is exclusive access to finite resources.
+
+</div>
+
+<hr />
+<h2 id="52-system-resource-model">5.2 — System Resource Model<a class="headerlink" href="#52-system-resource-model" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Resource types and instances</summary>
+<p>A system has <span class="arithmatex">\(m\)</span> <strong>resource types</strong>, each with <span class="arithmatex">\(W_i\)</span> <strong>instances</strong>.</p>
+<ul>
+<li><strong>Resource type:</strong> printer, disk, mutex, semaphore.</li>
+<li><strong>Instance:</strong> each individual printer, each individual disk block.</li>
+</ul>
+</details>
+<div class="fragment">
+
+???+ note "Process's use of resources"
+    A process uses a resource in three phases:
+
+    1. **Request** — ask for the resource; wait if not available.
+    2. **Use** — hold the resource; do work.
+    3. **Release** — give the resource back.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Formal model"
+    - $n$ processes.
+    - $m$ resource types, with $W_i$ instances of type $i$.
+    - **Allocation matrix** $A$ — $A_{ij}$ = number of type-$j$ resources held by process $i$.
+    - **Request matrix** $R$ — $R_{ij}$ = number of type-$j$ resources process $i$ is requesting.
+    - **Availability vector** $V$ — $V_j$ = free resources of type $j$.
+
+</div>
+
+<hr />
+<h2 id="53-the-four-coffman-conditions">5.3 — The Four Coffman Conditions<a class="headerlink" href="#53-the-four-coffman-conditions" title="Permanent link">&para;</a></h2>
+<details class="abstract" open="open">
+<summary>Coffman conditions (1971)</summary>
+<p>A deadlock can occur <strong>only if all four</strong> of the following hold <strong>simultaneously</strong>:</p>
+</details>
+<div class="fragment">
+
+???+ note "1. Mutual exclusion"
+    At least one resource is held in a **non-shareable** mode — only one process can use it at a time.
+
+</div>
+
+<div class="fragment">
+
+???+ note "2. Hold and wait"
+    A process holding at least one resource is **waiting for additional resources** held by other processes.
+
+</div>
+
+<div class="fragment">
+
+???+ note "3. No preemption"
+    Resources **cannot be forcibly taken** from a process. They must be released voluntarily.
+
+</div>
+
+<div class="fragment">
+
+???+ note "4. Circular wait"
+    A **circular chain** of processes exists where each waits for a resource held by the next in the chain.
+
+</div>
+
+<div class="fragment">
+
+???+ success "The implication"
+    **Breaking any one** of these conditions prevents deadlock. **All four are necessary** — the absence of even one makes deadlock impossible.
+
+</div>
+
+<hr />
+<h2 id="54-resource-allocation-graph">5.4 — Resource Allocation Graph<a class="headerlink" href="#54-resource-allocation-graph" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition</summary>
+<p>A <strong>resource allocation graph</strong> (RAG) is a directed graph where:
+- <strong>Circles</strong> are processes.
+- <strong>Rectangles</strong> are resource types (with dots for instances).
+- <strong>Edges:</strong>
+  - <strong>Request</strong> — <span class="arithmatex">\(P \to R\)</span> (dashed, if using explicit request edges).
+  - <strong>Assignment</strong> — <span class="arithmatex">\(R \to P\)</span>.</p>
+</details>
+<div class="fragment">
+
+???+ note "Example RAG"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>P1 ──► R1 ──► P2 ──► R2 ──► P1
+</span></code></pre></div>
+
+    P1 holds R2 (implicitly) and requests R1. P2 holds R1 and requests R2. **Cycle → deadlock** (if one instance per resource).
+
+</div>
+
+<div class="fragment">
+
+???+ abstract "The RAG rule (single instance)"
+    In a RAG with **one instance per resource**:
+
+    **A cycle is necessary and sufficient for deadlock.**
+
+</div>
+
+<div class="fragment">
+
+???+ warning "The rule breaks for multiple instances"
+    With multiple instances per resource, a cycle is **necessary but not sufficient** — the resources in the cycle might be available elsewhere. This is why we need the detection algorithm (Section 5.8).
+
+</div>
+
+<hr />
+<h2 id="worked-example-51-detect-deadlock-from-a-rag">Worked example 5.1 — Detect deadlock from a RAG<a class="headerlink" href="#worked-example-51-detect-deadlock-from-a-rag" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>P1 ──► R1 ──► P2
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>              │
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>              ▼
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>              R2 ──► P1
+</span></code></pre></div>
+Plus: R2 has 2 instances, one held by P1 and one free.</p>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — check for cycles.**"
+    P1 → R1 → P2 → R2 → P1. **Cycle exists.**
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — check instances.**"
+    R2 has 2 instances; 1 held by P1, 1 free.
+
+    P2 requests R2 (1 instance). R2 has a free instance — so P2 can be satisfied. The cycle is **broken** when P2 gets R2's free instance and finishes.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Conclusion.**"
+    **No deadlock.** The cycle exists but is **not a deadlock** — a free instance breaks it. This illustrates why the RAG rule requires single instances.
+
+</div>
+
+<hr />
+<h2 id="55-deadlock-prevention">5.5 — Deadlock Prevention<a class="headerlink" href="#55-deadlock-prevention" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Prevent by breaking one condition</summary>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>How to break</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mutual exclusion</strong></td>
+<td>Make resources shareable</td>
+<td>Often impossible</td>
+</tr>
+<tr>
+<td><strong>Hold and wait</strong></td>
+<td>Request all resources at once, or release all before requesting new</td>
+<td>Low utilisation</td>
+</tr>
+<tr>
+<td><strong>No preemption</strong></td>
+<td>Allow preemption</td>
+<td>Requires save/restore state</td>
+</tr>
+<tr>
+<td><strong>Circular wait</strong></td>
+<td>Impose a total order on resources</td>
+<td>Restricts programming</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ note "Hold-and-wait prevention"
+    Two variants:
+    1. **Request all at once** — the process requests every resource it will ever need before starting. **Low utilisation** — a process holding resources waits for others.
+    2. **Release all before requesting new** — the process releases everything before requesting more. **Restart required** — cannot easily resume.
+
+</div>
+
+<div class="fragment">
+
+???+ note "No-preemption prevention"
+    - When a process requests a resource held by another, **preempt** the holder.
+    - The preempted process is **rolled back** to a safe state.
+    - Works only if the state is checkpointable (e.g., CPU registers, but not a partially written file).
+
+</div>
+
+<div class="fragment">
+
+???+ note "Circular-wait prevention (the practical choice)"
+    Assign a **global order** to all resources (e.g., by resource number). Each process must request resources in **increasing order**. This prevents a cycle — if P1 holds R1 (lower) and requests R2 (higher), and P2 holds R2 and requests R1, P2's request violates the ordering.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The UNIX lock order"
+    Linux's kernel uses a **lock order** documented in the source tree — every mutex has a level, and acquiring locks out of order triggers a warning (`might_sleep` / lockdep). This is circular-wait prevention in action.
+
+</div>
+
+<hr />
+<h2 id="56-deadlock-avoidance">5.6 — Deadlock Avoidance<a class="headerlink" href="#56-deadlock-avoidance" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Prevention is static and conservative. <strong>Avoidance</strong> is dynamic: it grants a request <strong>only if the resulting state is safe</strong>.</p>
+</details>
+<div class="fragment">
+
+???+ abstract "Safe state (Silberschatz §7.5)"
+    A state is **safe** if there exists a **safe sequence** of processes $\langle P_1, P_2, \ldots, P_n \rangle$ such that:
+
+    For each $i$, the resources $P_i$ still needs can be satisfied by the **currently available** resources plus those held by $P_1, \ldots, P_{i-1}$.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Key facts"
+    - **Safe state** ≠ **no deadlock** — every safe state is deadlock-free, but some unsafe states are also deadlock-free.
+    - A safe state **guarantees** that all processes can finish — by following the safe sequence.
+    - An unsafe state **may or may not** deadlock — depends on future requests.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "The conservative nature of avoidance"
+    Avoidance may refuse a request even though granting it would not deadlock — because it cannot **guarantee** no future deadlock. This is the price of safety.
+
+</div>
+
+<hr />
+<h2 id="57-bankers-algorithm">5.7 — Banker's Algorithm<a class="headerlink" href="#57-bankers-algorithm" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Data structures (Silberschatz §7.5.3)</summary>
+<p>For <span class="arithmatex">\(n\)</span> processes and <span class="arithmatex">\(m\)</span> resource types:</p>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Dimensions</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Available</strong></td>
+<td><span class="arithmatex">\(m\)</span></td>
+<td>Free resources</td>
+</tr>
+<tr>
+<td><strong>Max</strong></td>
+<td><span class="arithmatex">\(n \times m\)</span></td>
+<td>Max demand per process</td>
+</tr>
+<tr>
+<td><strong>Allocation</strong></td>
+<td><span class="arithmatex">\(n \times m\)</span></td>
+<td>Current allocation</td>
+</tr>
+<tr>
+<td><strong>Need</strong></td>
+<td><span class="arithmatex">\(n \times m\)</span></td>
+<td><span class="arithmatex">\(Max - Allocation\)</span></td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ note "The safety algorithm"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Work = Available
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Finish = [false, false, ..., false]
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>while (exists i with Finish[i] == false and Need[i] &lt;= Work):
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    Work = Work + Allocation[i]
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    Finish[i] = true
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>return all(Finish)
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+???+ note "The resource-request algorithm"
+    When $P_i$ requests `Request[i]`:
+
+    1. If `Request[i] > Need[i]`, error.
+    2. If `Request[i] > Available`, $P_i$ must wait.
+    3. **Pretend** to allocate: `Available -= Request`, `Allocation[i] += Request`, `Need[i] -= Request`.
+    4. Run the safety algorithm.
+    5. If **safe**, grant; else **roll back** and make $P_i$ wait.
+
+</div>
+
+<hr />
+<h2 id="worked-example-52-bankers-algorithm-safety-check">Worked example 5.2 — Banker's algorithm safety check<a class="headerlink" href="#worked-example-52-bankers-algorithm-safety-check" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p>System with resource types A, B, C, totals (10, 5, 7).</p>
+<table>
+<thead>
+<tr>
+<th>Process</th>
+<th>Allocation</th>
+<th>Max</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0</td>
+<td>(0,1,0)</td>
+<td>(7,5,3)</td>
+<td>(7,4,3)</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>(2,0,0)</td>
+<td>(3,2,2)</td>
+<td>(1,2,2)</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>(3,0,2)</td>
+<td>(9,0,2)</td>
+<td>(6,0,0)</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>(2,1,1)</td>
+<td>(2,2,2)</td>
+<td>(0,1,1)</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>(0,0,2)</td>
+<td>(4,3,3)</td>
+<td>(4,3,1)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — available.**"
+    Total allocated: $(0+2+3+2+0, 1+0+0+1+0, 0+0+2+1+2) = (7, 2, 5)$.
+
+    Available = $(10,5,7) - (7,2,5) = (3, 3, 2)$.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — find a satisfying process.**"
+    `Work = (3, 3, 2)`. Which process has `Need ≤ Work`?
+
+    - P1 needs (1, 2, 2) ≤ (3, 3, 2) ✓. **Finish P1.**
+    - `Work = (3, 3, 2) + (2, 0, 0) = (5, 3, 2)`.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 3 — continue.**"
+    - P3 needs (0, 1, 1) ≤ (5, 3, 2) ✓. **Finish P3.**
+    - `Work = (5, 3, 2) + (2, 1, 1) = (7, 4, 3)`.
+    - P4 needs (4, 3, 1) ≤ (7, 4, 3) ✓. **Finish P4.**
+    - `Work = (7, 4, 3) + (0, 0, 2) = (7, 4, 5)`.
+    - P0 needs (7, 4, 3) ≤ (7, 4, 5) ✓. **Finish P0.**
+    - `Work = (7, 4, 5) + (0, 1, 0) = (7, 5, 5)`.
+    - P2 needs (6, 0, 0) ≤ (7, 5, 5) ✓. **Finish P2.**
+
+</div>
+
+<div class="fragment">
+
+??? success "**Conclusion.**"
+    **Safe sequence: ⟨P1, P3, P4, P0, P2⟩.** The system is in a **safe state**.
+
+    Any process can now request up to its Need, as long as the resulting state remains safe.
+
+</div>
+
+<hr />
+<h2 id="worked-example-53-bankers-algorithm-request">Worked example 5.3 — Banker's algorithm request<a class="headerlink" href="#worked-example-53-bankers-algorithm-request" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p>In the safe state above, P1 requests (1, 0, 2).</p>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — validate.**"
+    `Request[P1] = (1, 0, 2) ≤ Need[P1] = (1, 2, 2)` ✓.
+    `Request[P1] = (1, 0, 2) ≤ Available = (3, 3, 2)` ✓.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — pretend allocation.**"
+    - Available = (3, 3, 2) − (1, 0, 2) = (2, 3, 0).
+    - Allocation[P1] = (2, 0, 0) + (1, 0, 2) = (3, 0, 2).
+    - Need[P1] = (1, 2, 2) − (1, 0, 2) = (0, 2, 0).
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 3 — run safety algorithm.**"
+    `Work = (2, 3, 0)`.
+
+    - P1 needs (0, 2, 0) ≤ (2, 3, 0) ✓. Finish. `Work = (5, 3, 2)`.
+    - P3 needs (0, 1, 1) ≤ (5, 3, 2) ✓. Finish. `Work = (7, 4, 3)`.
+    - P4 needs (4, 3, 1) ≤ (7, 4, 3) ✓. Finish. `Work = (7, 4, 5)`.
+    - P0 needs (7, 4, 3) ≤ (7, 4, 5) ✓. Finish. `Work = (7, 5, 5)`.
+    - P2 needs (6, 0, 0) ≤ (7, 5, 5) ✓. Finish.
+
+    All done.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Conclusion.**"
+    Request is **safe** → **granted**. P1 now has (3, 0, 2), still needs (0, 2, 0), and the system remains in a safe state.
+
+</div>
+
+<hr />
+<h2 id="58-deadlock-detection">5.8 — Deadlock Detection<a class="headerlink" href="#58-deadlock-detection" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>If prevention and avoidance are too costly, allow deadlock and <strong>detect</strong> it periodically.</p>
+</details>
+<div class="fragment">
+
+???+ note "Single instance per resource — wait-for graph"
+    Build a graph with processes as nodes. Edge $P_i \to P_j$ if $P_i$ waits for a resource held by $P_j$.
+
+    **Deadlock exists iff the wait-for graph has a cycle.**
+
+</div>
+
+<div class="fragment">
+
+???+ note "Multiple instances — detection algorithm"
+    Variant of the safety algorithm:
+
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Work = Available
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Finish[i] = false if Allocation[i] &gt; 0 else true
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>while (exists i with Finish[i] == false and Request[i] &lt;= Work):
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    Work = Work + Allocation[i]
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    Finish[i] = true
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Deadlock exists iff some Finish[i] == false.
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Detection cost"
+    Running the detection algorithm on every request is **$O(n^2 m)$** — expensive. Real systems run it periodically (e.g., every minute) or when the CPU is idle.
+
+</div>
+
+<hr />
+<h2 id="worked-example-54-wait-for-graph">Worked example 5.4 — Wait-for graph<a class="headerlink" href="#worked-example-54-wait-for-graph" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>P1 holds R1, requests R2.
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>P2 holds R2, requests R3.
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>P3 holds R3, requests R1.
+</span></code></pre></div>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — draw the wait-for graph.**"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>P1 ──► P2 ──► P3 ──► P1
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — check for a cycle.**"
+    P1 → P2 → P3 → P1. **Cycle exists.**
+
+</div>
+
+<div class="fragment">
+
+??? success "**Conclusion.**"
+    **Deadlock** in processes P1, P2, P3.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Cycle detection is fast"
+    Depth-first search on the wait-for graph is $O(V + E)$ — cheap enough to run on every request in single-instance systems.
+
+</div>
+
+<hr />
+<h2 id="59-deadlock-recovery">5.9 — Deadlock Recovery<a class="headerlink" href="#59-deadlock-recovery" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Three approaches</summary>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Cost</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Process termination</strong></td>
+<td>Kill processes</td>
+<td>Loss of work</td>
+</tr>
+<tr>
+<td><strong>Resource preemption</strong></td>
+<td>Take resources</td>
+<td>Rollback needed</td>
+</tr>
+<tr>
+<td><strong>Process rollback</strong></td>
+<td>Restore checkpoint</td>
+<td>Checkpoint overhead</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ note "Which process to terminate?"
+    - **Kill all** deadlocked processes — simple but drastic.
+    - **Kill one at a time** until cycle broken — better but slow.
+    - **Priorities:** low priority, least work, fewest resources.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Resource preemption issues"
+    1. **Victim selection** — which process to preempt?
+    2. **Rollback** — restore the victim to a safe state.
+    3. **Starvation** — a process may be preempted repeatedly. Fix: count preemptions, refuse to preempt a process more than $k$ times.
+
+</div>
+
+<hr />
+<h2 id="510-comparison-prevention-vs-avoidance-vs-detection">5.10 — Comparison: Prevention vs Avoidance vs Detection<a class="headerlink" href="#510-comparison-prevention-vs-avoidance-vs-detection" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The trade-off</summary>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Prevention</th>
+<th>Avoidance</th>
+<th>Detection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Overhead</strong></td>
+<td>Low (static rules)</td>
+<td>Medium (run safety on every request)</td>
+<td>Low (periodic detection)</td>
+</tr>
+<tr>
+<td><strong>Resource utilisation</strong></td>
+<td>Low (over-conservative)</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Deadlock possible?</strong></td>
+<td>No</td>
+<td>No</td>
+<td>Yes, until detected</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Small, static systems</td>
+<td>Batch systems with known max demands</td>
+<td>Large dynamic systems</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+!!! tip "What real systems use"
+    - **Linux/Windows:** **Ostrich algorithm** — ignore deadlock, rely on the user to kill stuck processes.
+    - **Databases:** **Timeout-based** — abort long transactions.
+    - **Safety-critical:** **Prevention** — statically prove no deadlock possible.
+    - **Distributed systems:** **Detection + recovery** — no global knowledge of resources.
+
+</div>
+
+<div class="fragment">
+
+???+ note "The ostrich algorithm"
+    "Put your head in the sand and pretend the problem doesn't exist." Modern general-purpose OSes do this — deadlocks are rare, and the cost of prevention (low utilisation) exceeds the cost of occasional user intervention.
+
+</div>
+
+<hr />
+<h2 id="511-deadlock-in-practice">5.11 — Deadlock in Practice<a class="headerlink" href="#511-deadlock-in-practice" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Real-world deadlock scenarios</summary>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Databases</strong></td>
+<td>Two transactions lock rows in opposite order</td>
+</tr>
+<tr>
+<td><strong>OS kernels</strong></td>
+<td>Two drivers acquire two mutexes in opposite order</td>
+</tr>
+<tr>
+<td><strong>Distributed systems</strong></td>
+<td>Two nodes wait for network messages from each other</td>
+</tr>
+<tr>
+<td><strong>Web servers</strong></td>
+<td>Two requests wait for each other's database locks</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+!!! tip "Prevention in practice"
+    - **Lock ordering** — all code acquires locks in a global order.
+    - **Try-lock with timeout** — never wait indefinitely.
+    - **Deadlock detection services** — some databases monitor and abort cycles automatically.
+
+</div>
+
+<hr />
+<h2 id="chapter-5-key-takeaways">Chapter 5 — key takeaways<a class="headerlink" href="#chapter-5-key-takeaways" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+**1.** A **deadlock** requires all four **Coffman conditions**: mutual exclusion, hold-and-wait, no-preemption, circular wait.
+
+</div>
+
+<div class="fragment">
+
+**2.** The **resource allocation graph** shows deadlock visually — a cycle is **sufficient** for single-instance resources but only **necessary** for multi-instance.
+
+</div>
+
+<div class="fragment">
+
+**3.** **Prevention** breaks one condition — cheapest (no deadlock) but lowest utilisation. **Circular-wait prevention** (lock ordering) is the practical choice.
+
+</div>
+
+<div class="fragment">
+
+**4.** **Avoidance** (Banker's algorithm) requires knowing max demands and checking every request for **safety**.
+
+</div>
+
+<div class="fragment">
+
+**5.** **Detection** uses wait-for graphs (single instance) or a detection algorithm (multi-instance). Cheaper than prevention but allows temporary deadlock.
+
+</div>
+
+<div class="fragment">
+
+**6.** **Recovery** by process termination or resource preemption. Preemption must avoid starvation.
+
+</div>
+
+<div class="fragment">
+
+**7.** Real systems often use the **ostrich algorithm** — deadlock is rare; user intervention is acceptable.
+
+</div>
+
+<hr />
+<h2 id="next-chapter-6">Next — Chapter 6<a class="headerlink" href="#next-chapter-6" title="Permanent link">&para;</a></h2>
+<p><strong>Memory Management.</strong></p>
+<div class="fragment">
+
+- **Contiguous allocation** and fragmentation.
+- **Paging** — page tables, TLB, multi-level tables.
+- **Segmentation** — logical segments.
+- **Virtual memory** — demand paging, page faults.
+- **Page replacement** — FIFO, LRU, Optimal, Clock.
+- **Thrashing** and working set.
+
+</div>
+
+<div class="fragment">
+
+Chapter 5 showed what happens when processes compete for **finite** resources. Chapter 6 shows the biggest finite resource of all — **memory**.
+
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.tracking", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2177 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="BSc Electrical Engineering (Computer) · Semester VII · Module Data Storage and Analysis">
+      
+      
+        <meta name="author" content="Dr. Tesfamichael Gebregziabher">
+      
+      
+        <link rel="canonical" href="https://tesfamichael-g.github.io/ECEG-5202-Operating Systems/slides/07-file-systems/">
+      
+      
+        <link rel="prev" href="../06-memory-management/">
+      
+      
+        <link rel="next" href="../08-io-management/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>7. File Systems - ECEG-5202 - Operating Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eceg-5202" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-header__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ECEG-5202 - Operating Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7. File Systems
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../syllabus/" class="md-tabs__link">
+        
+  
+    
+  
+  Syllabus
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+    
+  
+  Schedule
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../chapters/01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Chapters
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Slides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/" class="md-tabs__link">
+          
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../exam-bank/" class="md-tabs__link">
+        
+  
+    
+  
+  Exam Bank
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../assessment/" class="md-tabs__link">
+        
+  
+    
+  
+  Assessment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+    
+  
+  Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../feedback/" class="md-tabs__link">
+        
+  
+    
+  
+  Feedback
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-nav__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    ECEG-5202 - Operating Systems
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Syllabus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Chapters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chapters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Slides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Slides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-7-file-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 7 — File Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#71-what-is-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 — What is a File?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72-access-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 — Access Methods
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../solutions/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Solutions
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exam-bank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exam Bank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Feedback
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-7-file-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 7 — File Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#71-what-is-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 — What is a File?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72-access-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 — Access Methods
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="eceg-5202">ECEG-5202<a class="headerlink" href="#eceg-5202" title="Permanent link">&para;</a></h1>
+<h2 id="chapter-7-file-systems">Chapter 7 — File Systems<a class="headerlink" href="#chapter-7-file-systems" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="learning-outcomes">Learning outcomes<a class="headerlink" href="#learning-outcomes" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+1. Describe a **file** — attributes, operations, access methods.
+
+</div>
+
+<div class="fragment">
+
+2. Compare **directory structures**: linear, hash, tree, DAG.
+
+</div>
+
+<div class="fragment">
+
+3. Compare **file allocation methods**: contiguous, linked, indexed.
+
+</div>
+
+<div class="fragment">
+
+4. Trace a lookup through a **Unix inode**, including indirect blocks.
+
+</div>
+
+<div class="fragment">
+
+5. Explain **free-space management** (bitmap, linked list, grouping).
+
+</div>
+
+<div class="fragment">
+
+6. Describe **journaling** and why it prevents file-system corruption.
+
+</div>
+
+<hr />
+<h2 id="71-what-is-a-file">7.1 — What is a File?<a class="headerlink" href="#71-what-is-a-file" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition (Silberschatz §10.1)</summary>
+<p>A <strong>file</strong> is a named, persistent collection of related information stored on secondary storage.</p>
+</details>
+<div class="fragment">
+
+???+ note "File attributes"
+    | Attribute | Meaning |
+    |---|---|
+    | **Name** | Human-readable identifier |
+    | **Identifier** | Unique internal tag (usually an inode number) |
+    | **Type** | Regular, directory, symbolic link, device |
+    | **Location** | Pointer to disk blocks |
+    | **Size** | Current length |
+    | **Protection** | Read/write/execute permissions |
+    | **Timestamps** | Created, modified, accessed |
+    | **Owner** | User, group |
+
+</div>
+
+<div class="fragment">
+
+???+ note "File operations"
+    `create`, `open`, `read`, `write`, `seek`, `close`, `delete`, `truncate`, `append`.
+
+</div>
+
+<hr />
+<h2 id="72-access-methods">7.2 — Access Methods<a class="headerlink" href="#72-access-methods" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Sequential access</summary>
+<p>Read/write bytes in order. The next byte is always after the previous one.</p>
+<p><strong>Best for:</strong> logs, streaming media, tape.</p>
+</details>
+<div class="fragment">
+
+???+ note "Direct (random) access"
+    Read/write at any position by specifying the offset.
+
+<div class="fragment">
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>read(file, offset=1024, buffer, size=100)
+</span></code></pre></div>
+
+    **Best for:** databases, executable files, anything requiring seek.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Indexed access"
+    An **index** maps keys to byte offsets. Allows lookup by key.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Modern OSes support all three"
+    POSIX `read()`/`write()` operate on the file's current position. `lseek()` changes the position, enabling direct access. `open()` returns a file descriptor with a **current offset** — a per-fd cursor.
+
+</div>
+
+---
+
+## 7.3 — Directory Structures
+
+???+ note "What is a directory?"
+    A directory is a **special file** that maps names to inodes. The kernel uses it to resolve pathnames.
+
+<div class="fragment">
+
+???+ note "Four structures"
+    | Structure | Lookup | Example |
+    |---|---|---|
+    | **Linear list** | $O(n)$ scan | Old FAT |
+    | **Hash table** | $O(1)$ average | ext4 (directory hash) |
+    | **Tree (B-tree)** | $O(\log n)$ | NTFS, XFS |
+    | **DAG** | $O(1)$ per link | Unix hard links |
+
+</div>
+
+<div class="fragment">
+
+???+ note "Unix hard links and symbolic links"
+    - **Hard link** — another name for the same inode. Two directory entries point to the same inode. Deleting one does not delete the file.
+    - **Symbolic link (soft link)** — a file whose content is the path of another file. Deleting the target breaks the link.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Hard links and directories"
+    Modern Unix restricts hard links to files (not directories) — allowing them would create cycles in the directory tree, requiring garbage collection.
+
+</div>
+
+---
+
+## 7.4 — Allocation Methods: The Core Trade-off
+
+???+ note "The question"
+    A file needs $N$ blocks. Which disk blocks does it get, and how does the file system find them?
+
+<div class="fragment">
+
+???+ note "Three methods"
+    | Method | Sequential access | Random access | Space overhead |
+    |---|---|---|---|
+    | **Contiguous** | Excellent | Excellent | None |
+    | **Linked** | Good | Poor | One pointer per block |
+    | **Indexed** | Good | Excellent | One index block |
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The trade-off triangle"
+    - **Performance** (contiguous wins).
+    - **Fragmentation resistance** (linked wins).
+    - **Direct access** (contiguous and indexed win).
+
+</div>
+
+---
+
+## 7.5 — Contiguous Allocation
+
+???+ note "The idea"
+    Each file occupies a **contiguous block** of disk.
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>File A: blocks 10-19
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>File B: blocks 20-29
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>File C: blocks 30-32
+</span></code></pre></div>
+
+<div class="fragment">
+
+???+ note "Pros"
+    - **Fast sequential access** — one seek to the start, then linear.
+    - **Fast direct access** — one seek to `start + offset`.
+    - **No per-block overhead** — just start and length.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Cons"
+    - **External fragmentation** — as files grow and shrink, free space splits into holes.
+    - **Growth is painful** — a growing file may need to be **moved** to a new contiguous region.
+    - **Compaction** required to reclaim large free regions.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Contiguous allocation is rare today"
+    Only used in read-only file systems (CD-ROM, ISO 9660) and in specific modern uses (extent-based allocation in ext4, which is contiguous but with extents). The growth problem killed pure contiguous allocation for general-purpose FS.
+
+</div>
+
+---
+
+## 7.6 — Linked Allocation
+
+???+ note "The idea"
+    Each file is a **linked list of blocks**. The first block is a pointer; each block contains a pointer to the next.
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Block 10: [data | ptr to 20]
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Block 20: [data | ptr to 35]
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Block 35: [data | ptr to 42]
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Block 42: [data | NULL]
+</span></code></pre></div>
+
+<div class="fragment">
+
+???+ note "Pros"
+    - **No external fragmentation** — any free block can join any list.
+    - **File can grow** — append a block, update the tail's pointer.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Cons"
+    - **Direct access is slow** — to reach byte 1,000,000, walk the chain.
+    - **Pointer overhead** — 4 bytes per block (or more).
+    - **Fragile** — a corrupted pointer loses the rest of the file.
+
+</div>
+
+<div class="fragment">
+
+???+ tip "FAT (File Allocation Table)"
+    DOS's solution: store **all** pointers in a separate **File Allocation Table** at the start of the disk. Each FAT entry is one disk block. Direct access still requires walking the FAT, but the FAT is cached in memory.
+
+</div>
+
+---
+
+## 7.7 — Indexed Allocation
+
+???+ note "The idea"
+    Each file has an **index block** — an array of pointers to the file's data blocks.
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Inode:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  index_block → [data_block_1, data_block_2, ..., data_block_N]
+</span></code></pre></div>
+
+<div class="fragment">
+
+???+ note "Pros"
+    - **Direct access is fast** — index gives O(1) access to any block.
+    - **No external fragmentation** — any free block can be a data block.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Cons"
+    - **Index block overhead** — for small files, an entire block (4 KB) is reserved but mostly unused.
+    - **Multi-level index required for large files** — the Unix inode uses single, double, and triple indirect.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Modern file systems use hybrid schemes"
+    ext4 uses **extents** — a single entry describes a contiguous range of blocks. This gives the speed of contiguous allocation with the flexibility of indexing.
+
+</div>
+
+---
+
+## 7.8 — The Unix Inode
+
+???+ note "The inode structure"
+    Each file has an **inode** with metadata and 15 pointers:
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Inode:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  mode, owner, size, timestamps, ...
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  direct[0..11]          12 direct pointers
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  single_indirect[1]     1 pointer to a block of 1024 pointers
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  double_indirect[1]     1 pointer to a block of 1024 single-indirect blocks
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  triple_indirect[1]     1 pointer to a block of 1024 double-indirect blocks
+</span></code></pre></div>
+
+<div class="fragment">
+
+???+ note "File size limits (4 KB blocks, 4 B pointers)"
+    | Level | Coverage |
+    |---|---|
+    | Direct (12) | $12 \times 4\,\text{KB} = 48\,\text{KB}$ |
+    | Single indirect | $1024 \times 4\,\text{KB} = 4\,\text{MB}$ |
+    | Double indirect | $1024^2 \times 4\,\text{KB} = 4\,\text{GB}$ |
+    | Triple indirect | $1024^3 \times 4\,\text{KB} = 4\,\text{TB}$ |
+
+</div>
+
+<div class="fragment">
+
+???+ success "The genius of the inode"
+    - **Small files** — accessed via direct pointers, no extra blocks touched.
+    - **Large files** — accessed via indirect pointers, scaling to 4 TB.
+    - **Flexible** — the same inode structure handles files from 1 byte to 4 TB.
+
+</div>
+
+---
+
+## Worked example 7.1 — Trace a file offset in the inode
+
+!!! tip "Problem:"
+    A file is 100 KB. Block size = 4 KB. Where do the following offsets live?
+
+<div class="fragment">
+
+???+ note "**Offset 0 (first byte).**"
+    Block 0. Direct pointer 0.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Offset 24,000 (≈ 5.9 blocks).**"
+    Block 5. Direct pointer 5.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Offset 100,000 (≈ 24.4 blocks).**"
+    Block 24. That's > 12 (direct limit) and < 1024 (single indirect limit). Lookup:
+    - Read `single_indirect[0]` → indirect block.
+    - Read indirect[24 − 12] = indirect[12] → data block 24.
+
+</div>
+
+<div class="fragment">
+
+??? info "**File size 10 MB.**"
+    Block 2500 — within single indirect (up to 4 MB) and double indirect (up to 4 GB). Lookup:
+    - Read `single_indirect[0]` → indirect block.
+    - Then `double_indirect[0]` → second indirect block.
+    - Then `[2500 − 1024 − 12]` → data block.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Trade-off.** The farther into the file, the more indirect blocks the OS must read. Small files are fast; large files are still OK, just with a few extra indirections."
+
+</div>
+
+---
+
+## 7.9 — Free Space Management
+
+???+ note "The question"
+    The OS must know which blocks are free. Which data structure tracks this?
+
+<div class="fragment">
+
+???+ note "Three approaches"
+    | Method | Structure | Trade-off |
+    |---|---|---|
+    | **Bitmap** | One bit per block | Fast lookup, large space |
+    | **Linked list** | Linked list of free blocks | Small space, slow scan |
+    | **Grouping** | Block of block addresses | Between the two |
+
+</div>
+
+<div class="fragment">
+
+???+ note "Bitmap"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1011000111000101 1101 ...
+</span></code></pre></div>
+
+    - Bit = 1 → free.
+    - Bit = 0 → allocated.
+
+    For a 1 TB disk with 4 KB blocks ($2^{28}$ blocks): bitmap = $2^{28}$ bits = 32 MB. Small relative to disk size.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Linked list"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>free_list_head → block 5 → block 12 → block 19 → ... → NULL
+</span></code></pre></div>
+
+    - **Space:** small (one pointer per free block).
+    - **Lookup:** $O(\text{free})$ — cannot tell if a specific block is free without walking.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Ext4 uses a hybrid"
+    Ext4 uses a **bitmap** for the inode table and **extent-based free space management** for data blocks. Best of both worlds.
+
+</div>
+
+---
+
+## 7.10 — Journaling
+
+???+ note "The problem"
+    A power failure during a write can leave the file system **inconsistent** — a pointer updated but the data not written, or a directory entry pointing to a freed block.
+
+<div class="fragment">
+
+???+ note "The journaling solution"
+    Before making any change, **write it to a journal** first. Once the journal entry is on disk, the change is safe — it can be replayed after a crash.
+
+</div>
+
+<div class="fragment">
+
+???+ note "The three-step protocol"
+    1. **Journal write** — write the intended change to the journal area.
+    2. **Commit** — write a commit record to the journal.
+    3. **Checkpoint** — apply the change to the actual file-system data.
+
+    If a crash occurs before step 2, the journal is ignored. If after step 2, the journal is replayed on reboot.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Journaling modes"
+    | Mode | What is journaled | Speed | Consistency |
+    |---|---|---|---|
+    | **Journal** | Data + metadata | Slowest | Strongest |
+    | **Ordered** (default ext4) | Metadata (data written first) | Medium | Good |
+    | **Writeback** | Metadata only | Fastest | Weakest |
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Journaling ≠ backup"
+    Journaling ensures **consistency** — the file system is always in a valid state after a crash. It does not protect against accidental deletion, corruption, or ransomware. Backup is a separate concern.
+
+</div>
+
+---
+
+## Worked example 7.2 — Journal replay
+
+!!! tip "Problem:"
+    A crash occurs after the journal has a "commit" record for a new file, but the directory entry has not yet been written. What happens on reboot?
+
+<div class="fragment">
+
+???+ note "**Step 1 — scan the journal.**"
+    The file system finds the journal entry with a valid commit record.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — replay.**"
+    The journal entry describes the intended operation. The file system re-applies it — creating the directory entry that wasn't written before the crash.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Result.**"
+    The file exists. The file system is consistent. If the journal entry had **no** commit record, it would be ignored (the file would not exist — as if the crash happened before the create was requested).
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The order matters"
+    Data must be written to disk **before** the journal is committed (in ordered mode). Otherwise, after replay, the journal points to a data block that was never written — corrupt.
+
+</div>
+
+---
+
+## 7.11 — File System Performance
+
+???+ note "The buffer cache"
+    The OS caches recently accessed disk blocks in memory. A read that hits the cache avoids a disk access — 100,000× faster.
+
+<div class="fragment">
+
+???+ note "Performance optimizations"
+    | Technique | Benefit |
+    |---|---|
+    | **Buffer cache** | Avoids disk reads for hot data |
+    | **Read-ahead** | Prefetches sequential blocks |
+    | **Journaling** | Fast recovery after crash |
+    | **Extents** (ext4, XFS) | Contiguous allocation for large files |
+    | **Delayed allocation** | Batches small writes into large ones |
+
+</div>
+
+<div class="fragment">
+
+???+ note "The writeback problem"
+    Write-back caching improves performance but delays durability. `fsync(fd)` forces a write to disk — essential for databases and journals.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The small-file problem"
+    Many small files (e.g., a git repo) exercise the inode allocator and directory structure heavily. Filesystems like **XFS** and **btrfs** optimize for this; ext4 is decent but not ideal.
+
+</div>
+
+---
+
+## 7.12 — Modern File Systems
+
+???+ note "A brief comparison"
+    | FS | Journaled | CoW | Compression | Typical use |
+    |---|---|---|---|---|
+    | **ext4** | Yes | No | No | Linux default |
+    | **XFS** | Yes | No | No | Large files, servers |
+    | **btrfs** | CoW | Yes | Yes | Snapshots, containers |
+    | **ZFS** | CoW | Yes | Yes | Storage servers, NAS |
+    | **NTFS** | Yes | No | Yes | Windows |
+    | **APFS** | CoW | Yes | Yes | macOS, iOS |
+
+<div class="fragment">
+
+!!! tip "Copy-on-write (CoW) file systems"
+    Btrfs and ZFS never overwrite data — they write new blocks and update pointers. This gives:
+    - **Snapshots** for free — just record the current root pointer.
+    - **Cheap clones** — share blocks until modified.
+    - **Atomic updates** — no half-written state.
+
+</div>
+
+---
+
+## Chapter 7 — key takeaways
+
+<div class="fragment">
+
+**1.** A **file** is a named, persistent collection of bytes. Attributes include name, size, timestamps, and protection.
+
+</div>
+
+<div class="fragment">
+
+**2.** **Access methods**: sequential, direct, indexed. Modern OSes support all three via `lseek`.
+
+</div>
+
+<div class="fragment">
+
+**3.** **Directory structures**: linear (slow), hash (fast), tree (scales), DAG (Unix links).
+
+</div>
+
+<div class="fragment">
+
+**4.** **Allocation methods**: contiguous (fast, fragmentation), linked (flexible, slow), indexed (good compromise, inode).
+
+</div>
+
+<div class="fragment">
+
+**5.** The **Unix inode** combines direct and indirect pointers to handle files from bytes to terabytes.
+
+</div>
+
+<div class="fragment">
+
+**6.** **Free-space management**: bitmap (fast, large), linked list (small, slow).
+
+</div>
+
+<div class="fragment">
+
+**7.** **Journaling** ensures consistency after crash — write intent to journal, then apply.
+
+</div>
+
+<div class="fragment">
+
+**8.** Modern file systems (btrfs, ZFS) use **copy-on-write** for snapshots and atomicity.
+
+</div>
+
+---
+
+## Next — Chapter 8
+
+**I/O Management.**
+
+<div class="fragment">
+
+- **I/O hardware**: controllers, buses, device registers.
+- **Four I/O software layers**.
+- **Programmed I/O**, **interrupt-driven**, **DMA**.
+- **Disk scheduling**: FCFS, SSTF, SCAN, C-SCAN, LOOK.
+- **Disk caching** and **buffering**.
+
+</div>
+
+<div class="fragment">
+
+Chapter 7 managed **persistent** storage. Chapter 8 manages the **mechanisms** that move data between devices and memory.
+
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.tracking", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

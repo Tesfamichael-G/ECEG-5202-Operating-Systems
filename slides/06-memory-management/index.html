@@ -1,0 +1,2351 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="BSc Electrical Engineering (Computer) · Semester VII · Module Data Storage and Analysis">
+      
+      
+        <meta name="author" content="Dr. Tesfamichael Gebregziabher">
+      
+      
+        <link rel="canonical" href="https://tesfamichael-g.github.io/ECEG-5202-Operating Systems/slides/06-memory-management/">
+      
+      
+        <link rel="prev" href="../05-deadlocks/">
+      
+      
+        <link rel="next" href="../07-file-systems/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>6. Memory Management - ECEG-5202 - Operating Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eceg-5202" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-header__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ECEG-5202 - Operating Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6. Memory Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../syllabus/" class="md-tabs__link">
+        
+  
+    
+  
+  Syllabus
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+    
+  
+  Schedule
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../chapters/01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Chapters
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Slides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/" class="md-tabs__link">
+          
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../exam-bank/" class="md-tabs__link">
+        
+  
+    
+  
+  Exam Bank
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../assessment/" class="md-tabs__link">
+        
+  
+    
+  
+  Assessment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+    
+  
+  Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../feedback/" class="md-tabs__link">
+        
+  
+    
+  
+  Feedback
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-nav__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    ECEG-5202 - Operating Systems
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Syllabus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Chapters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chapters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Slides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Slides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-6-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 6 — Memory Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-the-memory-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 — The Memory Hierarchy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-address-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 — Address Binding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-the-memory-management-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3 — The Memory Management Unit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64-fixed-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4 — Fixed Partitioning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#65-variable-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5 — Variable Partitioning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-61-first-fit-vs-best-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 6.1 — First-fit vs best-fit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#66-buddy-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6 — Buddy System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#67-paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.7 — Paging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#68-the-page-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.8 — The Page Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#69-the-tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.9 — The TLB
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-62-paging-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 6.2 — Paging translation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#610-multi-level-page-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.10 — Multi-Level Page Tables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#611-segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.11 — Segmentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#612-virtual-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.12 — Virtual Memory
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#613-page-replacement-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.13 — Page Replacement Algorithms
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../solutions/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Solutions
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exam-bank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exam Bank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Feedback
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-6-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 6 — Memory Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-the-memory-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 — The Memory Hierarchy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-address-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 — Address Binding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-the-memory-management-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3 — The Memory Management Unit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64-fixed-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4 — Fixed Partitioning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#65-variable-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.5 — Variable Partitioning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-61-first-fit-vs-best-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 6.1 — First-fit vs best-fit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#66-buddy-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.6 — Buddy System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#67-paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.7 — Paging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#68-the-page-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.8 — The Page Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#69-the-tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.9 — The TLB
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-62-paging-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 6.2 — Paging translation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#610-multi-level-page-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.10 — Multi-Level Page Tables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#611-segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.11 — Segmentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#612-virtual-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.12 — Virtual Memory
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#613-page-replacement-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.13 — Page Replacement Algorithms
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="eceg-5202">ECEG-5202<a class="headerlink" href="#eceg-5202" title="Permanent link">&para;</a></h1>
+<h2 id="chapter-6-memory-management">Chapter 6 — Memory Management<a class="headerlink" href="#chapter-6-memory-management" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="learning-outcomes">Learning outcomes<a class="headerlink" href="#learning-outcomes" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+1. Explain **address binding** (compile, load, execution) and the role of the **MMU**.
+
+</div>
+
+<div class="fragment">
+
+2. Distinguish **fixed**, **variable**, and **buddy-system** partitioning; identify fragmentation types.
+
+</div>
+
+<div class="fragment">
+
+3. Translate a **virtual address** to a **physical address** in a paging system, using the **TLB**.
+
+</div>
+
+<div class="fragment">
+
+4. Compare **paging** and **segmentation**.
+
+</div>
+
+<div class="fragment">
+
+5. Trace **page-replacement algorithms** (FIFO, LRU, Optimal, Clock) on a reference string.
+
+</div>
+
+<div class="fragment">
+
+6. Define and detect **thrashing**; use the **working-set** model.
+
+</div>
+
+<hr />
+<h2 id="61-the-memory-hierarchy">6.1 — The Memory Hierarchy<a class="headerlink" href="#61-the-memory-hierarchy" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Registers         ← CPU
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>L1 Cache          ~32 KB
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    │
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>L2 Cache          ~256 KB
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    │
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>L3 Cache          ~8 MB
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    │
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Main Memory       ~8–32 GB
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Disk (SSD/HDD)    ~TB
+</span></code></pre></div>
+<div class="fragment">
+
+!!! tip "The management problem"
+    Each process wants **all the memory it needs**, at high speed, isolated from other processes. The OS and MMU together provide the illusion of **more memory** and **private memory** — using caches, paging, and virtual memory.
+
+</div>
+
+<hr />
+<h2 id="62-address-binding">6.2 — Address Binding<a class="headerlink" href="#62-address-binding" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Three times</summary>
+<table>
+<thead>
+<tr>
+<th>When</th>
+<th>Binding</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Compile time</strong></td>
+<td>Absolute addresses</td>
+<td>Program must load at a fixed address</td>
+</tr>
+<tr>
+<td><strong>Load time</strong></td>
+<td>Relocatable addresses</td>
+<td>Program can load anywhere, fixed at load</td>
+</tr>
+<tr>
+<td><strong>Execution time</strong></td>
+<td>Virtual addresses</td>
+<td>Program can move during execution</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ info "Modern systems use execution-time binding"
+    Every load/store instruction computes a **virtual address**, which the **MMU** translates to a **physical address** on every memory access. This enables:
+    - **Paging** — page can be anywhere in physical memory.
+    - **Swapping** — page can be on disk and brought in on demand.
+    - **Protection** — page permissions enforced by the MMU.
+
+</div>
+
+<hr />
+<h2 id="63-the-memory-management-unit">6.3 — The Memory Management Unit<a class="headerlink" href="#63-the-memory-management-unit" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The MMU's job</summary>
+<p>Translate every virtual address to a physical address.</p>
+</details>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>CPU ──► Virtual address ──► MMU ──► Physical address ──► Memory
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                              │
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                              └── consults page table
+</span></code></pre></div>
+<div class="fragment">
+
+???+ info "Two mappings"
+    - **Paging** — virtual page number + offset → physical frame number + offset.
+    - **Segmentation** — segment number + offset → base + offset.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The MMU is hardware"
+    The page-table walk is implemented in silicon. Without the MMU, every memory access would need an OS system call — 1000× slower.
+
+</div>
+
+<hr />
+<h2 id="64-fixed-partitioning">6.4 — Fixed Partitioning<a class="headerlink" href="#64-fixed-partitioning" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Divide memory into <strong>fixed-size partitions</strong>. Each process gets one partition.</p>
+</details>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Memory:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>┌──────────┐
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│ Part 1   │  ← process A (fits)
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>├──────────┤
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│ Part 2   │  ← process B (fits)
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>├──────────┤
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│ Part 3   │  ← EMPTY (no process of this size)
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>├──────────┤
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│ Part 4   │  ← process C (fits)
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>└──────────┘
+</span></code></pre></div>
+<div class="fragment">
+
+???+ warning "Internal fragmentation"
+    A process **smaller** than its partition wastes the remainder. If partition = 100 MB and process = 30 MB, 70 MB is wasted.
+
+</div>
+
+<div class="fragment">
+
+???+ info "How bad?"
+    In the worst case, up to 50% of memory is wasted. This is why fixed partitioning is rarely used today (except in embedded systems).
+
+</div>
+
+<hr />
+<h2 id="65-variable-partitioning">6.5 — Variable Partitioning<a class="headerlink" href="#65-variable-partitioning" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Allocate each process exactly the memory it needs. Partitions are <strong>variable-sized</strong>.</p>
+</details>
+<div class="fragment">
+
+???+ warning "External fragmentation"
+    Free memory is scattered in small **holes** between allocations. Even if the total free memory is enough, **no single hole** may be large enough.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Allocation strategies"
+    | Strategy | Behaviour |
+    |---|---|
+    | **First-fit** | First hole large enough |
+    | **Best-fit** | Smallest hole large enough |
+    | **Worst-fit** | Largest hole |
+
+</div>
+
+<div class="fragment">
+
+???+ info "Fixes for external fragmentation"
+    - **Compaction** — shuffle memory to coalesce holes. Expensive.
+    - **Paging** — eliminate the requirement for contiguity (Section 6.7).
+    - **Segmentation** — still has fragmentation but with logical meaning.
+
+</div>
+
+<hr />
+<h2 id="worked-example-61-first-fit-vs-best-fit">Worked example 6.1 — First-fit vs best-fit<a class="headerlink" href="#worked-example-61-first-fit-vs-best-fit" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p>Memory holes: [100, 500, 200, 300, 600]. Requests in order: [212, 417, 112, 426].</p>
+</div>
+<div class="fragment">
+
+???+ note "**First-fit.**"
+    - 212 → hole 500 (splits to 288). Holes: [100, 288, 200, 300, 600].
+    - 417 → hole 600 (splits to 183). Holes: [100, 288, 200, 300, 183].
+    - 112 → hole 288 (splits to 176). Holes: [100, 176, 200, 300, 183].
+    - 426 → no hole ≥ 426. **Fails.**
+
+</div>
+
+<div class="fragment">
+
+??? info "**Best-fit.**"
+    - 212 → hole 300 (splits to 88). Holes: [100, 500, 200, 88, 600].
+    - 417 → hole 500 (splits to 83). Holes: [100, 83, 200, 88, 600].
+    - 112 → hole 200 (splits to 88). Holes: [100, 83, 88, 88, 600].
+    - 426 → hole 600 (splits to 174). Holes: [100, 83, 88, 88, 174].
+
+    **All succeed.**
+
+</div>
+
+<div class="fragment">
+
+??? success "**Observation.**"
+    Best-fit does more work (searches all holes) but produces **smaller leftover holes** and **fewer failures**. First-fit is faster but more likely to leave large unusable holes.
+
+</div>
+
+<hr />
+<h2 id="66-buddy-system">6.6 — Buddy System<a class="headerlink" href="#66-buddy-system" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Memory is allocated in <strong>power-of-two</strong> blocks. A request is rounded up to the next power of two. If unavailable, a larger block is <strong>split in half</strong> (buddies).</p>
+</details>
+<div class="fragment">
+
+???+ note "Example: request 50 KB"
+    - Round up to 64 KB.
+    - If no 64 KB block, take a 128 KB block and split into two 64 KB buddies.
+    - If no 128 KB block, split 256 KB, etc.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Finding a buddy"
+    If a block is at address $A$ and has size $2^k$, its buddy is at address $A \oplus 2^k$ (XOR).
+
+</div>
+
+<div class="fragment">
+
+???+ note "Pros and cons"
+    - **Fast allocation and coalescing** — buddy find is O(1).
+    - **Internal fragmentation** — rounded up to power of two → up to 50% waste.
+
+</div>
+
+<hr />
+<h2 id="67-paging">6.7 — Paging<a class="headerlink" href="#67-paging" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Divide <strong>physical memory</strong> into fixed-size <strong>frames</strong> (e.g., 4 KB).
+Divide <strong>logical memory</strong> into same-size <strong>pages</strong>.
+Pages can go in <strong>any frame</strong> — no contiguity needed.</p>
+</details>
+<div class="fragment">
+
+???+ note "Address translation"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Virtual address:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>┌─────────────┬────────┐
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│ page number │ offset │
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>└─────────────┴────────┘
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>       │           │
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>       ▼           │
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>┌─────────────┐    │
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│ page table  │    │
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>└─────────────┘    │
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>       │           │
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>       ▼           ▼
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>┌─────────────┬────────┐
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│frame number │ offset │
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>└─────────────┴────────┘
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>Physical address
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+???+ success "Paging eliminates external fragmentation"
+    Every page fits in every frame. Free frames can be reused without coalescing.
+
+</div>
+
+<div class="fragment">
+
+???+ warning "Internal fragmentation remains"
+    The **last page** of a process may be partially filled — waste up to (page_size − 1) bytes. With 4 KB pages, average waste is 2 KB per process.
+
+</div>
+
+<hr />
+<h2 id="68-the-page-table">6.8 — The Page Table<a class="headerlink" href="#68-the-page-table" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition</summary>
+<p>The <strong>page table</strong> maps page numbers to frame numbers. One entry per page of the process.</p>
+</details>
+<div class="fragment">
+
+???+ note "Page table entry (PTE)"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌─────┬─────┬──────────────────┐
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│ Valid│ Dirty│ Frame number     │
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>└─────┴─────┴──────────────────┘
+</span></code></pre></div>
+
+    - **Valid bit** — is the page in memory?
+    - **Dirty bit** — has the page been written?
+    - **Reference bit** — has the page been accessed? (for LRU/Clock)
+    - **Protection bits** — read/write/execute.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Where is the page table stored?"
+    In **physical memory** (not in a register). Every memory access requires reading a PTE — **doubling** the memory traffic. This is why the TLB exists.
+
+</div>
+
+<hr />
+<h2 id="69-the-tlb">6.9 — The TLB<a class="headerlink" href="#69-the-tlb" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Translation Lookaside Buffer</summary>
+<p>A small <strong>associative cache</strong> of recent page-table entries. On a TLB hit, translation is fast; on a miss, the page table is consulted.</p>
+</details>
+<div class="fragment">
+
+???+ note "Effective access time (EAT)"
+    $$
+    \text{EAT} = \alpha \cdot (t_{\text{TLB}} + t_{\text{mem}}) + (1-\alpha) \cdot (t_{\text{TLB}} + 2 t_{\text{mem}})
+    $$
+
+    where $\alpha$ is the TLB hit rate.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Typical numbers"
+    - $t_{\text{TLB}} = 1$ ns, $t_{\text{mem}} = 100$ ns, $\alpha = 0.99$.
+    - EAT = $0.99 \times 101 + 0.01 \times 201 = 99.99 + 2.01 = 102$ ns.
+
+    A 1% TLB miss rate **doubles** the memory access time — TLB hit rate matters enormously.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "TLB flushing on context switch"
+    When the OS switches to a different process, the TLB entries become invalid — they belong to the old process's address space. Modern CPUs use **ASIDs** (address space IDs) to tag TLB entries, avoiding the flush.
+
+</div>
+
+<hr />
+<h2 id="worked-example-62-paging-translation">Worked example 6.2 — Paging translation<a class="headerlink" href="#worked-example-62-paging-translation" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p>Page size = 4 KB (offset = 12 bits). Virtual address = <code>0x00002A3F</code>. Page table:</p>
+<table>
+<thead>
+<tr>
+<th>Page #</th>
+<th>Frame #</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>Find the physical address.</p>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — split the address.**"
+    `0x00002A3F` = binary `0000 0000 0000 0000 0010 1010 0011 1111`.
+
+    - Offset (low 12 bits) = `0xA3F` = 2623.
+    - Page number = `0x2` = 2.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — look up the page table.**"
+    Page 2 → frame 8.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Step 3 — assemble the physical address.**"
+    Physical = frame 8 × 4 KB + offset 2623 = 32768 + 2623 = **35391 = 0x8A3F**.
+
+</div>
+
+<div class="fragment">
+
+???+ info "**Sanity check.**"
+    The physical address should have the same low 12 bits as the virtual address (`A3F`), with the frame number in the high bits. ✓
+
+</div>
+
+<hr />
+<h2 id="610-multi-level-page-tables">6.10 — Multi-Level Page Tables<a class="headerlink" href="#610-multi-level-page-tables" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The problem</summary>
+<p>For a 32-bit address space with 4 KB pages: <span class="arithmatex">\(2^{20}\)</span> pages = ~1M entries per page table = 4 MB per process. For 1000 processes, that's 4 GB just for page tables.</p>
+</details>
+<div class="fragment">
+
+???+ note "The solution — multi-level page tables"
+    Split the page table into a tree. Only the levels that are actually used need to be allocated.
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Virtual address:  | PGD | PUD | PMD | PTE | offset |
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>                    │
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>                    ▼
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>                Page global directory
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>                    │
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>                    ▼
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>                Page upper directory
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>                    │
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>                    ▼
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>                Page middle directory
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>                    │
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>                    ▼
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>                Page table entry
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+???+ info "Typical x86-64 layout"
+    - 4 levels of page tables.
+    - Each level uses 9 bits of the 48-bit virtual address.
+    - 12 bits offset.
+    - Total: 4 × 9 + 12 = 48 bits.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Multi-level tables are slower"
+    Each level of the tree is one memory access. A 4-level walk needs **4 memory accesses** per TLB miss. This is why TLB hit rate is so critical.
+
+</div>
+
+<hr />
+<h2 id="611-segmentation">6.11 — Segmentation<a class="headerlink" href="#611-segmentation" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Divide the program into <strong>logical segments</strong> — code, data, stack, heap — each with its own base and limit.</p>
+</details>
+<div class="fragment">
+
+???+ note "Address translation"
+    Segment number + offset → segment table lookup → physical address.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Pros"
+    - **Matches programmer's view** of memory.
+    - **Natural protection** — code segment read-only, stack writable.
+    - **Sharing** — two processes share the same code segment.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Cons"
+    - **External fragmentation** — segments are variable-size.
+    - **Complex hardware** — segment table plus offset check.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Paging vs segmentation"
+    | Aspect | Paging | Segmentation |
+    |---|---|---|
+    | Size | Fixed | Variable |
+    | Internal frag | Yes (last page) | No |
+    | External frag | No | Yes |
+    | Programmer view | Invisible | Matches structure |
+    | Modern use | Yes (with segmentation) | Mostly historical |
+
+</div>
+
+<hr />
+<h2 id="612-virtual-memory">6.12 — Virtual Memory<a class="headerlink" href="#612-virtual-memory" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The idea</summary>
+<p>Give each process a <strong>virtual address space</strong> larger than physical memory. Only the <strong>currently used</strong> pages are in memory; the rest are on disk.</p>
+</details>
+<div class="fragment">
+
+???+ note "Demand paging"
+    A page is loaded **on demand** — when the process accesses it, and only then. If the page is not in memory, a **page fault** occurs.
+
+</div>
+
+<div class="fragment">
+
+???+ note "The page-fault handler"
+    1. Trap to kernel (page fault).
+    2. Find a **free frame** (or evict one).
+    3. Read the page from disk.
+    4. Update the page table (mark valid).
+    5. Restart the faulting instruction.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Why virtual memory works"
+    Programs exhibit **locality** — at any moment, they access a small subset of their pages (the working set). The OS keeps this working set in memory and swaps the rest to disk.
+
+</div>
+
+<hr />
+<h2 id="613-page-replacement-algorithms">6.13 — Page Replacement Algorithms<a class="headerlink" href="#613-page-replacement-algorithms" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The problem</summary>
+<p>Memory is full. A new page must be loaded. Which page to evict?</p>
+</details>
+<div class="fragment">
+
+???+ note "The four classic algorithms"
+    | Algorithm | Rule | Optimal? |
+    |---|---|---|
+    | **FIFO** |
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.tracking", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

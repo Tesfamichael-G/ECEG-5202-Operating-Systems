@@ -1,0 +1,2726 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="BSc Electrical Engineering (Computer) · Semester VII · Module Data Storage and Analysis">
+      
+      
+        <meta name="author" content="Dr. Tesfamichael Gebregziabher">
+      
+      
+        <link rel="canonical" href="https://tesfamichael-g.github.io/ECEG-5202-Operating Systems/slides/01-introduction/">
+      
+      
+        <link rel="prev" href="../../chapters/09-security/">
+      
+      
+        <link rel="next" href="../02-processes/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>1. Introduction - ECEG-5202 - Operating Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eceg-5202" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-header__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ECEG-5202 - Operating Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../syllabus/" class="md-tabs__link">
+        
+  
+    
+  
+  Syllabus
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+    
+  
+  Schedule
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../chapters/01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Chapters
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  Slides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/" class="md-tabs__link">
+          
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../exam-bank/" class="md-tabs__link">
+        
+  
+    
+  
+  Exam Bank
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../assessment/" class="md-tabs__link">
+        
+  
+    
+  
+  Assessment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+    
+  
+  Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../feedback/" class="md-tabs__link">
+        
+  
+    
+  
+  Feedback
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-nav__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    ECEG-5202 - Operating Systems
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Syllabus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Chapters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chapters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Slides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Slides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-introduction-to-operating-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 1 — Introduction to Operating Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-is-an-operating-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 — What is an Operating System?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-the-os-manages" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 — What the OS Manages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-the-os-as-an-abstraction-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 — The OS as an Abstraction Layer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-evolution-of-operating-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 — Evolution of Operating Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-batch-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 — Batch Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-multiprogramming-and-time-sharing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.5 — Multiprogramming and Time-Sharing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-os-structures-the-five-families" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.6 — OS Structures: The Five Families
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-monolithic-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.7 — Monolithic Kernel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-layered-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.8 — Layered Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-microkernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.9 — Microkernel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110-computer-system-organisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.10 — Computer System Organisation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111-interrupts" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.11 — Interrupts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-11-trace-a-keyboard-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 1.1 — Trace a keyboard interrupt
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-dual-mode-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.12 — Dual-Mode Operation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.13 — System Calls
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-12-trace-a-write-system-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 1.2 — Trace a write() system call
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-kernel-data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.14 — Kernel Data Structures
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115-real-world-os-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.15 — Real-World OS Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 1 — key takeaways
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-chapter-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next — Chapter 2
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../solutions/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Solutions
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exam-bank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exam Bank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Feedback
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-introduction-to-operating-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 1 — Introduction to Operating Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-is-an-operating-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 — What is an Operating System?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-the-os-manages" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 — What the OS Manages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-the-os-as-an-abstraction-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 — The OS as an Abstraction Layer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-evolution-of-operating-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 — Evolution of Operating Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-batch-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 — Batch Systems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-multiprogramming-and-time-sharing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.5 — Multiprogramming and Time-Sharing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-os-structures-the-five-families" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.6 — OS Structures: The Five Families
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-monolithic-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.7 — Monolithic Kernel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-layered-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.8 — Layered Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-microkernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.9 — Microkernel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110-computer-system-organisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.10 — Computer System Organisation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#111-interrupts" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.11 — Interrupts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-11-trace-a-keyboard-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 1.1 — Trace a keyboard interrupt
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-dual-mode-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.12 — Dual-Mode Operation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.13 — System Calls
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-12-trace-a-write-system-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worked example 1.2 — Trace a write() system call
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-kernel-data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.14 — Kernel Data Structures
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#115-real-world-os-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.15 — Real-World OS Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 1 — key takeaways
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-chapter-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next — Chapter 2
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="eceg-5202">ECEG-5202<a class="headerlink" href="#eceg-5202" title="Permanent link">&para;</a></h1>
+<h2 id="chapter-1-introduction-to-operating-systems">Chapter 1 — Introduction to Operating Systems<a class="headerlink" href="#chapter-1-introduction-to-operating-systems" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="learning-outcomes">Learning outcomes<a class="headerlink" href="#learning-outcomes" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+1. Define what an **operating system** is, and why it exists.
+
+</div>
+
+<div class="fragment">
+
+2. Trace the **evolution** of OS from batch to mobile, and identify what changed at each step.
+
+</div>
+
+<div class="fragment">
+
+3. Compare **monolithic**, **layered**, **microkernel**, **modular**, and **hybrid** OS structures.
+
+</div>
+
+<div class="fragment">
+
+4. Describe the **computer system organisation** (CPU, memory, I/O, buses) and the role of **interrupts**.
+
+</div>
+
+<div class="fragment">
+
+5. Explain **dual-mode operation** and its role in OS protection.
+
+</div>
+
+<div class="fragment">
+
+6. Trace a **system call** from user space to kernel and back.
+
+</div>
+
+<hr />
+<h2 id="11-what-is-an-operating-system">1.1 — What is an Operating System?<a class="headerlink" href="#11-what-is-an-operating-system" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition (Tanenbaum §1.1)</summary>
+<p>An <strong>operating system</strong> is a program that acts as an <strong>intermediary between the user and the computer hardware</strong>. Its primary goals are <strong>convenience</strong> for the user and <strong>efficient</strong> utilisation of the hardware.</p>
+</details>
+<div class="fragment">
+
+???+ info "Two views"
+    **Top-down (user's view):** the OS is the interface that makes the hardware usable — files, processes, sockets, windows.
+
+    **Bottom-up (resource manager):** the OS is the allocator of CPU, memory, devices, and storage among competing processes.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Where does the OS live?"
+    The **kernel** is the part of the OS that runs in **privileged mode** and has direct access to hardware. User-space programs (including most of the OS "system utilities") run in **unprivileged mode** and interact with the kernel via **system calls**.
+
+</div>
+
+<aside class="notes">
+  <div style="font-size: 16px; line-height: 1.6;">
+Open by anchoring the two views. Students often think "OS = Windows/Ubuntu GUI" — but the GUI is just one user-space application. The OS is the kernel: the layer that mediates hardware access. Emphasise this distinction early; it will come up again in every chapter.
+  </div>
+</aside>
+
+<hr />
+<h2 id="11-what-the-os-manages">1.1 — What the OS Manages<a class="headerlink" href="#11-what-the-os-manages" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌──────────────────────────────────────────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                 Applications                     │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├──────────────────────────────────────────────────┤
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│              Operating System (Kernel)           │
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  ┌──────────┬──────────┬───────────┬──────────┐ │
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  │ Process  │ Memory   │ File      │ I/O      │ │
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  │ Manager  │ Manager  │ System    │ Manager  │ │
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│  └──────────┴──────────┴───────────┴──────────┘ │
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├──────────────────────────────────────────────────┤
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│                    Hardware                      │
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>└──────────────────────────────────────────────────┘
+</span></code></pre></div>
+<div class="fragment">
+
+???+ note "Four resource categories"
+    | Resource | Managed by | Chapter |
+    |---|---|---|
+    | **CPU** | Scheduler | 3 |
+    | **Memory** | Memory manager | 6 |
+    | **Storage / files** | File system | 7 |
+    | **I/O devices** | I/O subsystem | 8 |
+
+</div>
+
+<div class="fragment">
+
+!!! warning "The OS is not a process"
+    The kernel is **not** a process that runs periodically. It is **invoked** on demand — by system calls, interrupts, and exceptions. Between invocations, it is dormant code sitting in memory.
+
+</div>
+
+<hr />
+<h2 id="12-the-os-as-an-abstraction-layer">1.2 — The OS as an Abstraction Layer<a class="headerlink" href="#12-the-os-as-an-abstraction-layer" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The layering</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>User program
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>     │  printf()       ← libc
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>     ▼
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>System-call wrapper
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>     │  write(fd, buf, n)
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>     ▼
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Kernel
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>     │  performs the actual I/O
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>     ▼
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Hardware
+</span></code></pre></div>
+</details>
+<div class="fragment">
+
+???+ info "What abstraction buys you"
+    - **Portability** — the same `write()` works on any disk.
+    - **Safety** — a program cannot corrupt the disk directly.
+    - **Simplicity** — a program does not manage DMA channels.
+    - **Sharing** — the OS multiplexes the disk across processes.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The three windows every OS exposes"
+    Every OS provides at least three abstractions:
+
+    1. **Process** — a running program with its own address space.
+    2. **File** — a persistent, named byte stream.
+    3. **Socket (or pipe)** — a channel for communication.
+
+</div>
+
+<hr />
+<h2 id="13-evolution-of-operating-systems">1.3 — Evolution of Operating Systems<a class="headerlink" href="#13-evolution-of-operating-systems" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The four generations</summary>
+<table>
+<thead>
+<tr>
+<th>Gen</th>
+<th>Years</th>
+<th>Hardware</th>
+<th>OS feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0th</strong></td>
+<td>1940s</td>
+<td>Vacuum tubes, plugboards</td>
+<td>No OS — direct hardware control</td>
+</tr>
+<tr>
+<td><strong>1st</strong></td>
+<td>1950s</td>
+<td>Transistors, mainframes</td>
+<td><strong>Batch monitors</strong> — automated job sequencing</td>
+</tr>
+<tr>
+<td><strong>2nd</strong></td>
+<td>1960s</td>
+<td>ICs</td>
+<td><strong>Multiprogramming</strong>, <strong>spooling</strong>, <strong>time-sharing</strong></td>
+</tr>
+<tr>
+<td><strong>3rd</strong></td>
+<td>1970s–80s</td>
+<td>LSI/VLSI</td>
+<td><strong>UNIX</strong>, <strong>MS-DOS</strong>, networked OS</td>
+</tr>
+<tr>
+<td><strong>4th</strong></td>
+<td>1990s–present</td>
+<td>VLSI, mobile, cloud</td>
+<td><strong>GUI</strong>, <strong>mobile</strong>, <strong>virtualisation</strong>, <strong>containers</strong></td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ note "What changed at each step"
+    - **Batch monitor** — eliminated the human operator between jobs.
+    - **Multiprogramming** — several jobs in memory; when one blocks on I/O, the CPU switches to another.
+    - **Time-sharing** — many interactive users; the OS switches rapidly so each user perceives the system as dedicated.
+    - **Virtualisation** — one physical machine runs many isolated VMs, each with its own kernel.
+
+</div>
+
+<hr />
+<h2 id="14-batch-systems">1.4 — Batch Systems<a class="headerlink" href="#14-batch-systems" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The batch model (1950s)</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Job 1  ──►  Memory  ──►  CPU  ──►  output
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Job 2  ──►     │
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Job 3  ──►     │  wait (job 1 finishes)
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>               ▼
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>          "batch" queued on tape
+</span></code></pre></div>
+</details>
+<div class="fragment">
+
+???+ info "The batch monitor"
+    - Reads jobs from a **card reader or tape**.
+    - Transfers control to the job.
+    - When the job finishes (or crashes), control returns to the monitor.
+    - The monitor is the first **resident** program — always in memory.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "The bottleneck"
+    The CPU is **idle** whenever a job is doing I/O. With tape-based I/O taking seconds per byte, CPU utilisation was often < 10%.
+
+</div>
+
+<hr />
+<h2 id="15-multiprogramming-and-time-sharing">1.5 — Multiprogramming and Time-Sharing<a class="headerlink" href="#15-multiprogramming-and-time-sharing" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Multiprogramming</summary>
+<p>Multiple jobs kept in memory at once. When the running job blocks on I/O, the CPU switches to another.</p>
+</details>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Memory:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>┌──────────┐
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│ Job 1    │ ← running
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>├──────────┤
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ Job 2    │ ← ready
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>├──────────┤
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│ Job 3    │ ← blocked on I/O
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>└──────────┘
+</span></code></pre></div>
+<div class="fragment">
+
+???+ note "Time-sharing (multitasking)"
+    A special case of multiprogramming where the CPU switches between jobs rapidly (every 10–100 ms) to give each **interactive user** the illusion of a dedicated machine.
+
+</div>
+
+<div class="fragment">
+
+???+ info "The two key mechanisms"
+    - **Context switch** — save the state of the running process, restore the state of the next.
+    - **Timer interrupt** — the hardware periodically forces a return to the kernel, so no process can monopolise the CPU.
+
+</div>
+
+<hr />
+<h2 id="16-os-structures-the-five-families">1.6 — OS Structures: The Five Families<a class="headerlink" href="#16-os-structures-the-five-families" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>How is the kernel organised internally?</summary>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Monolithic</strong></td>
+<td>One big kernel; all services in one address space</td>
+<td>Traditional Linux</td>
+</tr>
+<tr>
+<td><strong>Layered</strong></td>
+<td>Hierarchy of layers; each uses only the one below</td>
+<td>THE OS (1968)</td>
+</tr>
+<tr>
+<td><strong>Microkernel</strong></td>
+<td>Only essential services in kernel; the rest in user space</td>
+<td>QNX, MINIX, seL4</td>
+</tr>
+<tr>
+<td><strong>Modular</strong></td>
+<td>Monolithic core + loadable modules</td>
+<td>Linux, Solaris</td>
+</tr>
+<tr>
+<td><strong>Hybrid</strong></td>
+<td>Mix of approaches</td>
+<td>Windows NT, macOS</td>
+</tr>
+</tbody>
+</table>
+</details>
+<hr />
+<h2 id="17-monolithic-kernel">1.7 — Monolithic Kernel<a class="headerlink" href="#17-monolithic-kernel" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The structure</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌──────────────────────────────────────┐
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│  Scheduler  Memory  FS  Network      │
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│  Drivers    IPC     Security         │
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│         (single address space)        │
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>└──────────────────────────────────────┘
+</span></code></pre></div>
+</details>
+<div class="fragment">
+
+???+ info "Pros"
+    - **Fast** — direct function calls between subsystems.
+    - **Simple** — one linking model, one debugger.
+    - **Mature** — decades of optimisation.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Cons"
+    - **Large** — Linux kernel is ~30 million lines.
+    - **Fragile** — one buggy driver can crash the whole kernel.
+    - **Hard to maintain** — subsystems interlink.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Why Linux is monolithic today"
+    Linux started as a monolithic kernel (1991) and remains one. Efforts to add microkernel features (FUSE for user-space filesystems, eBPF for programmable kernel extensions) soften the monolithic edges, but the core design has not changed.
+
+</div>
+
+<hr />
+<h2 id="18-layered-structure">1.8 — Layered Structure<a class="headerlink" href="#18-layered-structure" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The layered OS (Dijkstra 1968)</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Layer 5 ── User programs
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Layer 4 ── I/O management
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Layer 3 ── Memory management
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Layer 2 ── Process scheduling
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Layer 1 ── Memory and I/O primitives
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>Layer 0 ── Hardware
+</span></code></pre></div>
+</details>
+<div class="fragment">
+
+???+ info "The rule"
+    Layer $N$ may call **only** layer $N-1$. There is no upward or same-layer call.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Pros"
+    - **Clean design** — each layer is testable in isolation.
+    - **Well-documented interface** — each layer's API is clear.
+
+</div>
+
+<div class="fragment">
+
+???+ warning "Cons"
+    - **Performance** — every operation crosses multiple layers.
+    - **Hard to define layers** — some operations need to skip layers.
+    - **Rarely used in practice** — the THE OS is the classic example.
+
+</div>
+
+<hr />
+<h2 id="19-microkernel">1.9 — Microkernel<a class="headerlink" href="#19-microkernel" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The structure</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>┌──────────────────────────────────────────┐
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>│  User space: FS, drivers, network servers │
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>├──────────────────────────────────────────┤
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│  Kernel: IPC + scheduling + basic memory  │
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>└──────────────────────────────────────────┘
+</span></code></pre></div>
+</details>
+<div class="fragment">
+
+???+ info "The three principles"
+    1. **Minimal kernel** — only IPC, scheduling, and low-level memory.
+    2. **All services user-space** — file systems and drivers run as processes.
+    3. **Message passing** — services communicate via kernel IPC.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Pros"
+    - **Reliability** — a crashed driver is a crashed process, restarted by the kernel.
+    - **Security** — the attack surface in kernel mode is tiny.
+    - **Formal verification** — **seL4** is a formally verified microkernel.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Cons"
+    - **Performance** — every system call becomes a message round trip.
+    - **Complexity** — IPC must be fast and correct.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Where microkernels live"
+    QNX (automotive, medical), MINIX 3 (embedded), seL4 (defence, aerospace), macOS's **Mach** layer (hybrid). The performance gap has narrowed — QNX's IPC is ~1 µs.
+
+</div>
+
+<hr />
+<h2 id="110-computer-system-organisation">1.10 — Computer System Organisation<a class="headerlink" href="#110-computer-system-organisation" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>┌───────────┐        ┌──────────┐        ┌───────────┐
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>│    CPU    │◄──────►│  Memory  │◄──────►│   DMA     │
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>└─────┬─────┘  Bus   └──────────┘  Bus   └─────┬─────┘
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>      │                                       │
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>      └──────────┬────────────────────────────┘
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>                 │
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>           ┌─────▼─────┐
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>           │   Disk    │
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>           └───────────┘
+</span></code></pre></div>
+<div class="fragment">
+
+???+ note "The four components"
+    - **CPU** — executes instructions, manages registers.
+    - **Memory** — holds instructions and data.
+    - **Buses** — carry addresses, data, and control signals.
+    - **Devices** — disks, network, keyboard, display.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The bootstrap sequence"
+    1. Power on → CPU fetches instruction from address 0.
+    2. **BIOS/UEFI firmware** runs from ROM.
+    3. Firmware loads the **bootloader** from disk.
+    4. Bootloader loads the **kernel** into memory.
+    5. Kernel initialises devices, memory, scheduler.
+    6. Kernel launches **init** (or **systemd**), which starts user services.
+
+</div>
+
+<hr />
+<h2 id="111-interrupts">1.11 — Interrupts<a class="headerlink" href="#111-interrupts" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition</summary>
+<p>An <strong>interrupt</strong> is a signal that causes the CPU to <strong>suspend</strong> its current execution and transfer control to an <strong>interrupt handler</strong>.</p>
+</details>
+<div class="fragment">
+
+???+ note "Three types"
+    | Type | Source | Example |
+    |---|---|---|
+    | **Hardware interrupt** | External device | Timer expires, disk completes |
+    | **Trap / exception** | Current instruction | Divide by zero, page fault |
+    | **Software interrupt** | Explicit instruction | System call (`int 0x80` on x86) |
+
+</div>
+
+<div class="fragment">
+
+???+ note "The interrupt vector table"
+    Each interrupt is assigned a **number**. The **IVT** maps the number to the handler's address.
+
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>IVT[0]  → divide_error_handler
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>IVT[14] → page_fault_handler
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>IVT[32] → timer_handler
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>IVT[33] → keyboard_handler
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+???+ info "What happens on interrupt"
+    1. CPU saves the current **program counter** and **flags** on the stack.
+    2. CPU switches to **kernel mode** (privileged).
+    3. CPU jumps to the handler address from the IVT.
+    4. Handler runs, may signal the waiting process.
+    5. **`iret`** (interrupt return) restores the previous state.
+    6. CPU resumes the interrupted program.
+
+</div>
+
+<hr />
+<h2 id="worked-example-11-trace-a-keyboard-interrupt">Worked example 1.1 — Trace a keyboard interrupt<a class="headerlink" href="#worked-example-11-trace-a-keyboard-interrupt" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p>A program is running a calculation. The user presses 'A'. Trace the sequence.</p>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — hardware.**"
+    Keyboard controller raises IRQ 1 (interrupt request line 1). The CPU, if not masked, accepts the interrupt.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — save state.**"
+    CPU pushes PC, flags, and register state onto the kernel stack. Switches to ring 0.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 3 — dispatch.**"
+    CPU jumps to the keyboard handler address from the IVT (typically `IVT[33]` if vector numbers are shifted).
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 4 — handler.**"
+    Reads the scancode from the keyboard controller port. Translates it to 'A'. Places 'A' in the input buffer. Signals any process waiting for keyboard input.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 5 — return.**"
+    Handler executes `iret`. CPU restores PC and flags. Resumes the calculation. The 'A' is now available for the next `read()` system call.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Observation.**"
+    The calculation **never noticed** the interrupt — except for a microsecond of delay. This is the fundamental abstraction of interrupts: **transparent preemption**.
+
+</div>
+
+<hr />
+<h2 id="112-dual-mode-operation">1.12 — Dual-Mode Operation<a class="headerlink" href="#112-dual-mode-operation" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The two modes</summary>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Privilege</th>
+<th>What runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kernel mode</strong> (ring 0 on x86)</td>
+<td>Full hardware access</td>
+<td>The OS kernel</td>
+</tr>
+<tr>
+<td><strong>User mode</strong> (rings 1–3)</td>
+<td>Restricted</td>
+<td>Applications</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ info "The mode bit"
+    The CPU status register contains a **mode bit**:
+    - `0` = kernel mode (privileged instructions allowed).
+    - `1` = user mode (privileged instructions trap to the kernel).
+
+</div>
+
+<div class="fragment">
+
+???+ note "Privileged instructions"
+    Instructions that only the kernel can execute:
+    - **Halt** the CPU.
+    - **Disable interrupts**.
+    - **Load the page table base register**.
+    - **Direct I/O port access**.
+    - **Modify the mode bit itself**.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Why this matters"
+    Without dual-mode operation, a buggy user program could **disable interrupts** and hang the machine, or **reprogram the disk controller** and corrupt the disk. Dual-mode is the foundation of OS protection.
+
+</div>
+
+<hr />
+<h2 id="113-system-calls">1.13 — System Calls<a class="headerlink" href="#113-system-calls" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Definition</summary>
+<p>A <strong>system call</strong> is the mechanism by which a user-space program requests a service from the kernel.</p>
+</details>
+<div class="fragment">
+
+???+ note "The three-step sequence"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>User:   write(1, "hello", 5)
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>          │  (library wrapper)
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>          ▼
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>User:   mov $1, %eax        ← syscall number
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>        syscall             ← trap to kernel
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>          │
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>          ▼
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>Kernel: dispatch to sys_write()
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>          │  performs the I/O
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>          ▼
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Kernel: iret                ← return to user
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>          │
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>          ▼
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>User:   return from write()
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+???+ note "Common system calls"
+    | Category | Examples |
+    |---|---|
+    | **Process** | `fork`, `exec`, `exit`, `wait` |
+    | **File** | `open`, `read`, `write`, `close`, `unlink` |
+    | **Memory** | `brk`, `mmap`, `munmap` |
+    | **Network** | `socket`, `bind`, `listen`, `accept`, `connect` |
+    | **Signal** | `kill`, `signal`, `sigaction` |
+
+</div>
+
+<div class="fragment">
+
+!!! tip "System calls are expensive"
+    A system call involves a mode switch (saving/restoring registers), TLB effects, and cache effects. Typical cost: **500–2000 ns** — compared to a user-space function call at ~1 ns. This is why real programs use **buffered I/O** (e.g., `fwrite` in libc accumulates bytes and issues one `write` per 4 KB).
+
+</div>
+
+<hr />
+<h2 id="worked-example-12-trace-a-write-system-call">Worked example 1.2 — Trace a <code>write()</code> system call<a class="headerlink" href="#worked-example-12-trace-a-write-system-call" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Problem:</p>
+<p>A program calls <code>write(1, "hello\n", 6)</code>. Trace the full path.</p>
+</div>
+<div class="fragment">
+
+???+ note "**Step 1 — library wrapper.**"
+    `write()` in libc loads the syscall number for `write` (1 on x86-64) into register `rax`, the file descriptor into `rdi`, the buffer into `rsi`, and the length into `rdx`.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 2 — trap.**"
+    Executes `syscall` instruction. CPU switches to ring 0, jumps to the kernel's syscall entry point.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 3 — dispatch.**"
+    Kernel reads `rax`, looks up `sys_call_table[1]` = `sys_write`. Calls it.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 4 — execute.**"
+    `sys_write` validates the file descriptor (1 = stdout). Copies the 6 bytes to the terminal driver's buffer. Returns 6.
+
+</div>
+
+<div class="fragment">
+
+??? info "**Step 5 — return.**"
+    Kernel puts the return value (6) in `rax`. Executes `sysret`. CPU returns to ring 3 at the instruction after `syscall`.
+
+</div>
+
+<div class="fragment">
+
+??? success "**Observation.**"
+    The program sees a normal function returning 6. The mode switch, validation, and I/O were all **transparent** — the abstraction worked.
+
+</div>
+
+<hr />
+<h2 id="114-kernel-data-structures">1.14 — Kernel Data Structures<a class="headerlink" href="#114-kernel-data-structures" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>What the kernel needs to track</summary>
+<table>
+<thead>
+<tr>
+<th>Data structure</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Process control block (PCB)</strong></td>
+<td>Per-process state (Chapter 2)</td>
+</tr>
+<tr>
+<td><strong>Page tables</strong></td>
+<td>Virtual-to-physical mappings (Chapter 6)</td>
+</tr>
+<tr>
+<td><strong>Inode table</strong></td>
+<td>Open file descriptors (Chapter 7)</td>
+</tr>
+<tr>
+<td><strong>Buffer cache</strong></td>
+<td>Cached disk blocks (Chapter 8)</td>
+</tr>
+<tr>
+<td><strong>Run queue</strong></td>
+<td>Runnable processes (Chapter 3)</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+!!! tip "The kernel as a giant data structure"
+    Modern kernels are, in large part, **data-structure management systems**. The scheduler manages the run queue; the memory manager manages the page tables; the file system manages inodes. Understanding the kernel means understanding these structures.
+
+</div>
+
+<hr />
+<h2 id="115-real-world-os-examples">1.15 — Real-World OS Examples<a class="headerlink" href="#115-real-world-os-examples" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The three dominant families</summary>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Examples</th>
+<th>Architecture</th>
+<th>Key trait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unix-like</strong></td>
+<td>Linux, macOS, BSD, Android</td>
+<td>Monolithic / hybrid</td>
+<td>Portable, POSIX</td>
+</tr>
+<tr>
+<td><strong>Windows NT</strong></td>
+<td>Windows 10/11, Server</td>
+<td>Hybrid</td>
+<td>Win32 API, registry</td>
+</tr>
+<tr>
+<td><strong>Real-time</strong></td>
+<td>QNX, VxWorks, FreeRTOS</td>
+<td>Microkernel / small</td>
+<td>Deterministic</td>
+</tr>
+</tbody>
+</table>
+</details>
+<div class="fragment">
+
+???+ info "Android's structure"
+    Android uses a **modified Linux kernel** with a custom **user-space stack**: Bionic libc, ART runtime, Android framework. The kernel is monolithic; the user space is a Java-like managed runtime.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Linux's scale"
+    - ~30 million lines of code.
+    - ~2,000 contributors per release.
+    - Runs on mobile (Android), servers (AWS, GCP), supercomputers (100% of TOP500), embedded (routers, cars).
+
+</div>
+
+<hr />
+<h2 id="chapter-1-key-takeaways">Chapter 1 — key takeaways<a class="headerlink" href="#chapter-1-key-takeaways" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+**1.** An **OS** is an intermediary between user and hardware, providing **convenience** and **efficient resource utilisation**.
+
+</div>
+
+<div class="fragment">
+
+**2.** Four resources managed: **CPU, memory, storage, I/O** — each with its own subsystem.
+
+</div>
+
+<div class="fragment">
+
+**3.** The OS's evolution — batch → multiprogramming → time-sharing → virtualisation — each step increased **utilisation** and **interactivity**.
+
+</div>
+
+<div class="fragment">
+
+**4.** Five kernel structures: **monolithic** (fast but fragile), **layered** (clean but slow), **microkernel** (reliable but IPC-heavy), **modular** (hybrid), **hybrid** (Windows/macOS).
+
+</div>
+
+<div class="fragment">
+
+**5.** **Interrupts** enable transparent preemption; the CPU saves state, dispatches to a handler, and returns.
+
+</div>
+
+<div class="fragment">
+
+**6.** **Dual-mode operation** (kernel vs user) protects the OS — privileged instructions trap to the kernel.
+
+</div>
+
+<div class="fragment">
+
+**7.** **System calls** are the interface — mode switch + dispatch + service + return. Cost: ~1 µs.
+
+</div>
+
+<hr />
+<h2 id="next-chapter-2">Next — Chapter 2<a class="headerlink" href="#next-chapter-2" title="Permanent link">&para;</a></h2>
+<p><strong>Processes.</strong></p>
+<div class="fragment">
+
+- The **process concept**: program in execution, memory layout, PCB.
+- The **five-state model** — new, ready, running, waiting, terminated.
+- **Process operations**: `fork`, `exec`, `wait`, `exit`.
+- **Threads**: models, benefits, and the context switch.
+- **Inter-process communication** basics.
+
+</div>
+
+<div class="fragment">
+
+Chapter 1 described the OS's role. Chapter 2 describes its first job — **managing processes**.
+
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.tracking", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2172 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="BSc Electrical Engineering (Computer) · Semester VII · Module Data Storage and Analysis">
+      
+      
+        <meta name="author" content="Dr. Tesfamichael Gebregziabher">
+      
+      
+        <link rel="canonical" href="https://tesfamichael-g.github.io/ECEG-5202-Operating Systems/slides/09-security/">
+      
+      
+        <link rel="prev" href="../08-io-management/">
+      
+      
+        <link rel="next" href="../../solutions/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>9. Introduction to Security - ECEG-5202 - Operating Systems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eceg-5202" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-header__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ECEG-5202 - Operating Systems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              9. Introduction to Security
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../syllabus/" class="md-tabs__link">
+        
+  
+    
+  
+  Syllabus
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+    
+  
+  Schedule
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../chapters/01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Chapters
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01-introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  Slides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/" class="md-tabs__link">
+          
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../exam-bank/" class="md-tabs__link">
+        
+  
+    
+  
+  Exam Bank
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../assessment/" class="md-tabs__link">
+        
+  
+    
+  
+  Assessment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+    
+  
+  Resources
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../feedback/" class="md-tabs__link">
+        
+  
+    
+  
+  Feedback
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ECEG-5202 - Operating Systems" class="md-nav__button md-logo" aria-label="ECEG-5202 - Operating Systems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3h6v4H3V3m12 7h6v4h-6v-4m0 7h6v4h-6v-4m-2-4H7v5h6v2H5V9h2v2h6v2Z"/></svg>
+
+    </a>
+    ECEG-5202 - Operating Systems
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Syllabus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Chapters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chapters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Slides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Slides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-9-introduction-to-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 9 — Introduction to Security
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#91-why-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.1 — Why Security?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-malware-three-fundamental-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.2 — Malware: Three Fundamental Types
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../solutions/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Solutions
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/02-processes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Processes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/03-cpu-scheduling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. CPU Scheduling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/04-ipc-synchronization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Inter-Process Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/05-deadlocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Deadlocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/06-memory-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Memory Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/07-file-systems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. File Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/08-io-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. I/O Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../solutions/09-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Introduction to Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exam-bank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exam Bank
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Feedback
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-9-introduction-to-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chapter 9 — Introduction to Security
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#91-why-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.1 — Why Security?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-malware-three-fundamental-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.2 — Malware: Three Fundamental Types
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="eceg-5202">ECEG-5202<a class="headerlink" href="#eceg-5202" title="Permanent link">&para;</a></h1>
+<h2 id="chapter-9-introduction-to-security">Chapter 9 — Introduction to Security<a class="headerlink" href="#chapter-9-introduction-to-security" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="learning-outcomes">Learning outcomes<a class="headerlink" href="#learning-outcomes" title="Permanent link">&para;</a></h2>
+<div class="fragment">
+
+1. Classify **threats**: malware, buffer overflow, DoS, social engineering.
+
+</div>
+
+<div class="fragment">
+
+2. Explain the **three factors** of authentication.
+
+</div>
+
+<div class="fragment">
+
+3. Distinguish **authentication** from **authorisation**.
+
+</div>
+
+<div class="fragment">
+
+4. Describe **access control models**: DAC, MAC, RBAC.
+
+</div>
+
+<div class="fragment">
+
+5. Explain **modern defences**: ASLR, DEP, sandboxing, encryption.
+
+</div>
+
+<hr />
+<h2 id="91-why-security">9.1 — Why Security?<a class="headerlink" href="#91-why-security" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>The trust problem</summary>
+<p>Every system has a <strong>trust boundary</strong>. Inside the boundary, components trust each other. Across the boundary, they must not.</p>
+</details>
+<div class="fragment">
+
+???+ note "Threat model"
+    A **threat model** identifies:
+    - What the attacker wants (data, execution, denial).
+    - What the attacker controls (input, network, local files).
+    - What the attacker cannot do (cross the trust boundary).
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Defence in depth"
+    No single defence is unbreakable. Real systems combine many defences — a **layered** approach. Breaking in requires defeating **all** layers, not just one.
+
+</div>
+
+<hr />
+<h2 id="92-malware-three-fundamental-types">9.2 — Malware: Three Fundamental Types<a class="headerlink" href="#92-malware-three-fundamental-types" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Virus</summary>
+<p>A <strong>virus</strong> is malicious code attached to a <strong>host program</strong>. When the host runs, the virus runs.</p>
+</details>
+<div class="fragment">
+
+???+ info "Virus characteristics"
+    - **Requires user action** — running an infected program.
+    - **Self-replicates** into other files.
+    - **Payloads** vary — data theft, destruction, ransomware.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Worm"
+    A **worm** is a **standalone** malicious program that **self-propagates** over the network.
+
+<div class="fragment">
+
+???+ info "Worm characteristics"
+    - **Does not need a host** — runs on its own.
+    - **Self-propagates** via network exploits.
+    - **Very fast** — no user action needed.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Trojan"
+    A **trojan** is malicious code **disguised** as legitimate software.
+
+<div class="fragment">
+
+???+ info "Trojan characteristics"
+    - **User installs it voluntarily** — thinking it's useful.
+    - **Does not self-replicate** — relies on the user to spread it.
+    - **Examples:** fake antivirus, pirated software, free games.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Worms are the most dangerous"
+    - **Virus:** requires user action → slow spread.
+    - **Worm:** no user action → exponential spread (minutes).
+    - **Trojan:** requires social engineering → targeted.
+
+    The **Morris worm** (1988) infected 10% of the internet in 24 hours — this is why worms are so feared.
+
+</div>
+
+---
+
+## 9.3 — Buffer Overflow
+
+???+ note "The vulnerability"
+    A **buffer overflow** occurs when a program writes more data into a buffer than it can hold, overwriting adjacent memory.
+
+<div class="fragment">
+
+???+ note "The classic stack overflow"
+    <div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vulnerable</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">strcpy</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span><span class="w">   </span><span class="c1">// no bounds check!</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
+</span></code></pre></div>
+
+</div>
+
+<div class="fragment">
+
+???+ note "The stack layout"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌──────────────────┐  ← higher addresses
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│ return address   │  ← overwritten by overflow!
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├──────────────────┤
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│ saved EBP        │
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>├──────────────────┤
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│ buffer[0..63]    │
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>└──────────────────┘  ← lower addresses
+</span></code></pre></div>
+
+    If `input` is longer than 64 bytes, it overwrites the saved EBP and return address.
+
+</div>
+
+<div class="fragment">
+
+???+ note "The attack"
+    1. Attacker writes a long string: 64 bytes of filler + new return address.
+    2. New return address points to shellcode (also in the buffer).
+    3. When the function returns, the CPU jumps to the attacker's code.
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Buffer overflows have dominated exploits for 30+ years"
+    Morris worm (1988), Code Red (2001), Slammer (2003), Heartbleed (2014) — all buffer overflows. The pattern is universal; the defences have evolved, but the vulnerability remains common in C code.
+
+</div>
+
+---
+
+## 9.4 — Defences Against Buffer Overflow
+
+???+ note "Four defences"
+    | Defence | How it works |
+    |---|---|
+    | **Stack canaries** | Random value between buffer and return address; checked on return |
+    | **ASLR** | Randomise stack/heap/library addresses |
+    | **DEP / NX** | Mark stack/heap as non-executable |
+    | **Safe languages** | Java, Rust, Python check bounds automatically |
+
+<div class="fragment">
+
+???+ note "Stack canaries"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌──────────────────┐
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│ return address   │
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├──────────────────┤
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│ canary (random)  │  ← if it changes, crash
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>├──────────────────┤
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│ saved EBP        │
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>├──────────────────┤
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│ buffer           │
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>└──────────────────┘
+</span></code></pre></div>
+
+    The compiler inserts a random value before the return address and checks it on return. If it's changed, the program aborts.
+
+</div>
+
+<div class="fragment">
+
+???+ note "ASLR"
+    **Address Space Layout Randomisation** — the OS randomises where the stack, heap, and libraries are placed. The attacker cannot predict the return address to jump to.
+
+</div>
+
+<div class="fragment">
+
+???+ note "DEP / NX"
+    **Data Execution Prevention / No-eXecute** — the CPU marks memory pages as non-executable. If the attacker puts shellcode on the stack, it cannot run.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Defence in depth"
+    Canaries, ASLR, and DEP are **complementary**. A successful attack must bypass all three. This is why modern systems are still vulnerable — each defence is defeatable in isolation, but together they raise the bar enormously.
+
+</div>
+
+---
+
+## 9.5 — Denial of Service (DoS)
+
+???+ note "The attack"
+    Flood a service with requests until it can no longer serve legitimate users.
+
+<div class="fragment">
+
+???+ note "Three flavours"
+    | Type | Description |
+    |---|---|
+    | **Volumetric** | Flood bandwidth (Gbps) |
+    | **Protocol** | Exploit protocol state (SYN flood) |
+    | **Application** | Slow HTTP requests, expensive queries |
+
+</div>
+
+<div class="fragment">
+
+???+ note "Distributed DoS (DDoS)"
+    Use a **botnet** of compromised machines to attack from many sources. The target cannot simply block one IP.
+
+</div>
+
+<div class="fragment">
+
+???+ info "Defences"
+    - **Rate limiting** — cap requests per IP.
+    - **Traffic filtering** — block known-bad IPs.
+    - **Anycast** — distribute the load across many servers.
+    - **CDN** — absorb the traffic at the edge.
+    - **CAPTCHAs** — distinguish humans from bots.
+
+</div>
+
+---
+
+## 9.6 — Social Engineering
+
+???+ note "The attack"
+    Manipulate **people**, not systems, to gain access.
+
+<div class="fragment">
+
+???+ note "Three common techniques"
+    | Technique | Example |
+    |---|---|
+    | **Phishing** | Fake email from "IT" asking for password |
+    | **Pretexting** | Call claiming to be a vendor needing access |
+    | **Baiting** | USB drive in the parking lot |
+
+</div>
+
+<div class="fragment">
+
+???+ info "Why it works"
+    Humans are not trained to detect deception. Phishing emails exploit **trust**, **urgency**, and **authority** — the same levers that legitimate communication uses.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Defences"
+    - **Training** — teach employees to recognise phishing.
+    - **Verification** — call back on a known number to confirm.
+    - **MFA** — even a stolen password is useless without the second factor.
+    - **Restricted access** — least privilege limits the damage of a compromised account.
+
+</div>
+
+---
+
+## 9.7 — Authentication: The Three Factors
+
+???+ note "Something you know"
+    **Passwords, PINs, security questions.**
+
+    - **Pros:** familiar, cheap.
+    - **Cons:** phishable, reusable, hard to remember securely.
+
+<div class="fragment">
+
+???+ note "Something you have"
+    **Smart cards, hardware tokens, phones (TOTP).**
+
+    - **Pros:** not phishable directly.
+    - **Cons:** can be lost or stolen.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Something you are"
+    **Fingerprints, face, iris, voice.**
+
+    - **Pros:** hard to copy, always available.
+    - **Cons:** cannot be changed if compromised.
+
+</div>
+
+<div class="fragment">
+
+???+ note "The strength ordering"
+    MFA (multi-factor) > something you have > something you are > something you know.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Passwords must be hashed, never plaintext"
+    Store **salted hashes** (bcrypt, scrypt, Argon2). Never store the password itself. Never use fast hashes (MD5, SHA-1) — they enable rainbow-table and brute-force attacks.
+
+</div>
+
+---
+
+## 9.8 — Authorisation: Access Control Models
+
+???+ note "Definition"
+    **Authorisation** determines **what** an authenticated user can do. Authentication says "who you are"; authorisation says "what you can access".
+
+<div class="fragment">
+
+???+ note "Three models"
+    | Model | Description | Example |
+    |---|---|---|
+    | **DAC** (Discretionary) | Owner decides | Unix file permissions |
+    | **MAC** (Mandatory) | System-wide policy | SELinux, AppArmor |
+    | **RBAC** (Role-Based) | Roles have permissions | Enterprise systems |
+
+</div>
+
+<div class="fragment">
+
+???+ note "DAC — Unix permissions"
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>-rwxr-xr-x  file.txt
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a> │││││││
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a> ││││││└── others: r-x
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a> ││││└──── group:  r-x
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a> │││└───── owner:  rwx
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a> ││└────── file type: -
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a> └└─────── special:  -
+</span></code></pre></div>
+
+    The owner decides who gets access.
+
+</div>
+
+<div class="fragment">
+
+???+ note "MAC — SELinux"
+    Every process and file has a **security context** (user, role, type). The kernel enforces policies like:
+
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>allow httpd_t var_log_t:file { read write };
+</span></code></pre></div>
+
+    Only httpd can read/write its log files, even if the OS user has permissions.
+
+</div>
+
+<div class="fragment">
+
+???+ note "RBAC — role-based"
+    Users are assigned **roles**. Roles have **permissions**. Access is checked via the role.
+
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>alice → doctor → read(patient_record)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>bob   → nurse  → read(patient_record)
+</span></code></pre></div>
+
+</div>
+
+---
+
+## 9.9 — Encryption: At Rest and In Transit
+
+???+ note "At rest"
+    **Disk encryption** — full-disk (BitLocker, FileVault) or per-file.
+    - **LUKS** (Linux) — encrypts the entire block device.
+    - **eCryptfs** — per-file encryption in the filesystem.
+
+<div class="fragment">
+
+???+ note "In transit"
+    **TLS** — encrypts network traffic.
+    - **Client → server** — negotiate cipher, exchange keys.
+    - **Then** — symmetric encryption (AES, ChaCha20).
+
+</div>
+
+<div class="fragment">
+
+???+ note "The two encryption types"
+    | Type | Speed | Use |
+    |---|---|---|
+    | **Symmetric** (AES) | Fast (~1 GB/s) | Bulk data |
+    | **Asymmetric** (RSA, ECC) | Slow (~1 MB/s) | Key exchange, signatures |
+
+</div>
+
+<div class="fragment">
+
+!!! tip "Real systems use both"
+    TLS uses **asymmetric** to exchange a **symmetric** session key, then **symmetric** for the actual data. This gives the security of asymmetric with the speed of symmetric.
+
+</div>
+
+---
+
+## 9.10 — Sandboxing
+
+???+ note "Definition"
+    **Sandboxing** isolates a program in a restricted environment — it can only access the resources the sandbox allows.
+
+<div class="fragment">
+
+???+ note "Examples"
+    - **Browser tabs** — each tab runs in a separate process with restricted permissions.
+    - **Containers** — Docker, LXC isolate processes.
+    - **iOS/Android apps** — each app runs in its own sandbox directory.
+    - **seccomp** (Linux) — restricts which syscalls a process can make.
+
+</div>
+
+<div class="fragment">
+
+???+ info "What the sandbox controls"
+    | Resource | How |
+    |---|---|
+    | **Filesystem** | Chroot, mount namespaces |
+    | **Network** | Network namespaces, firewalls |
+    | **CPU / memory** | Cgroups, rlimits |
+    | **Syscalls** | seccomp filters |
+
+</div>
+
+<div class="fragment">
+
+!!! warning "Sandboxes are not impenetrable"
+    Escaping a container is possible (e.g., Dirty COW, runc CVE-2019-5736). A sandbox reduces the attack surface but does not eliminate it.
+
+</div>
+
+---
+
+## 9.11 — Threat Modelling in Practice
+
+???+ note "STRIDE framework"
+    | Threat | Description |
+    |---|---|
+    | **Spoofing** | Pretending to be someone else |
+    | **Tampering** | Modifying data |
+    | **Repudiation** | Denying an action |
+    | **Information disclosure** | Revealing private data |
+    | **Denial of service** | Preventing access |
+    | **Elevation of privilege** | Gaining higher access |
+
+<div class="fragment">
+
+???+ note "Applying STRIDE to a login form"
+    | Threat | Mitigation |
+    |---|---|
+    | **Spoofing** | MFA |
+    | **Tampering** | HTTPS, CSRF tokens |
+    | **Repudiation** | Audit logs |
+    | **Info disclosure** | Password hashing, rate limit error messages |
+    | **DoS** | Rate limiting, CAPTCHA |
+    | **Privilege escalation** | Least privilege |
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The threat model is the design"
+    Security is not a feature you add at the end — it is a **design property**. A system with a clear threat model is more secure than one that adds defences reactively.
+
+</div>
+
+---
+
+## 9.12 — The Security Mindset
+
+???+ note "Three principles"
+    | Principle | Meaning |
+    |---|---|
+    | **Least privilege** | Every component has only the access it needs |
+    | **Defence in depth** | Multiple layers of defence |
+    | **Fail securely** | On failure, deny access (not grant) |
+
+<div class="fragment">
+
+???+ info "The attacker's advantage"
+    The defender must protect **every** entry point. The attacker needs to find **one** weakness. This asymmetry means security is always hard — and why **defence in depth** is essential.
+
+</div>
+
+<div class="fragment">
+
+???+ note "Theoretical vs practical"
+    - **Theoretical security:** unbreakable (one-time pad, formally verified).
+    - **Practical security:** hard enough that the cost of attack exceeds the value.
+
+    Real systems are always practical — the question is how high the bar is.
+
+</div>
+
+---
+
+## Chapter 9 — key takeaways
+
+<div class="fragment">
+
+**1.** **Malware**: viruses need user action, **worms self-propagate**, trojans disguise as legitimate.
+
+</div>
+
+<div class="fragment">
+
+**2.** **Buffer overflows** overwrite adjacent memory, including return addresses. Defences: **canaries**, **ASLR**, **DEP**, safe languages.
+
+</div>
+
+<div class="fragment">
+
+**3.** **DoS** attacks flood a service; DDoS uses a botnet. Defences: rate limiting, CDN, CAPTCHA.
+
+</div>
+
+<div class="fragment">
+
+**4.** **Social engineering** targets humans. **Training** and **MFA** are the best defences.
+
+</div>
+
+<div class="fragment">
+
+**5.** **Authentication** verifies identity; **authorisation** controls access. Three factors: know, have, are.
+
+</div>
+
+<div class="fragment">
+
+**6.** **Access control**: DAC (owner), MAC (policy), RBAC (roles).
+
+</div>
+
+<div class="fragment">
+
+**7.** **Encryption**: symmetric for speed, asymmetric for key exchange. **TLS** combines both.
+
+</div>
+
+<div class="fragment">
+
+**8.** **Sandboxing** isolates programs. **Least privilege**, **defence in depth**, **fail securely** are the guiding principles.
+
+</div>
+
+---
+
+## Course wrap-up
+
+<div class="fragment">
+
+**The arc of ECEG-5202:**
+
+1. **Chapter 1** — what an OS is, and why it exists.
+2. **Chapter 2** — processes and threads.
+3. **Chapter 3** — CPU scheduling.
+4. **Chapter 4** — synchronization and IPC.
+5. **Chapter 5** — deadlocks.
+6. **Chapter 6** — memory management.
+7. **Chapter 7** — file systems.
+8. **Chapter 8** — I/O management.
+9. **Chapter 9** — security.
+
+</div>
+
+<div class="fragment">
+
+!!! tip "The unifying question"
+    Every chapter asked: **how does the OS multiplex a finite resource across many processes, safely and efficiently?**
+
+    - **CPU** — scheduling.
+    - **Memory** — paging and virtual memory.
+    - **Disk** — file systems and I/O scheduling.
+    - **Shared data** — synchronisation and deadlock avoidance.
+    - **Access** — security.
+
+</div>
+
+<div class="fragment">
+
+**Good luck with the exam.**
+
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.indexes", "navigation.tracking", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

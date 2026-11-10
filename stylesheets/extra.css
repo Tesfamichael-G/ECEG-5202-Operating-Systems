@@ -1,0 +1,229 @@
+/* Slides — make form controls scale with the slide's base font */
+.reveal input,
+.reveal button,
+.reveal select,
+.reveal textarea {
+  font-size: inherit;
+  line-height: 1.4;
+  padding: 0.2em 0.7em;
+  border-radius: 0.25em;
+}
+.reveal input{
+  padding: 0.1em 0.7em;
+  border:1px solid #666;
+}
+.reveal button {
+  font-size: inherit;
+  line-height: 1.4;
+  padding: 0.25em;
+  margin-top: 0.25em;
+  border-radius: 0.2em;
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  border: none;
+  cursor: pointer;
+}
+.reveal button:hover {
+  background: var(--md-accent-fg-color);
+}
+/* docs/stylesheets/extra.css */
+.reveal .slides section {
+  font-size: 24px !important;
+}
+.reveal .slides section h2 {
+  font-size: 1.4em !important;   /* proportional to the new base */
+}
+.reveal .slides section h3 {
+  font-size: 1.1em !important;
+}
+.reveal .slides mjx-container {
+  font-size: 85% !important;
+}
+
+/* docs/stylesheets/extra.css */
+
+/* docs/stylesheets/extra.css 
+.reveal .slides section {
+  padding: 15px 25px !important;
+}*/
+
+.reveal .slides section pre {
+  width: 100%;
+}
+
+.reveal .slides section {
+   text-align: left;
+  --admon-width: 100%;
+  --admon-margin: 0.8em 0;
+  --admon-font-size: 1em;   /* match slide base instead of 85% */
+}
+
+.reveal ul, .reveal ol {
+  text-align: left;
+}
+.reveal h1, .reveal h2, .reveal h3,
+.reveal h4, .reveal h5, .reveal h6 {
+  text-align: center;
+}
+
+/* Optional: keep title slide centered */
+.reveal .title-slide,
+.reveal .title-slide h1,
+.reveal .title-slide h2,
+.reveal .title-slide p {
+  text-align: center;
+}
+.reveal .title-slide mjx-container[display="true"] {
+  text-align: center !important;
+  padding-left: 0;
+}
+/* Improve overall text readability */
+.md-typeset {
+  font-size: 0.85rem; /* Slightly larger base font */
+  line-height: 1.6;  /* More breathing room between lines */
+}
+
+/* Make math equations stand out and look cleaner */
+.md-typeset .arithmatex {
+  font-size: 1.15em;
+  line-height: 1.5;
+}
+
+/* Make code blocks slightly more elegant */
+.md-typeset code {
+  font-size: 1.8em;
+  line-height: 1.25;
+  background-color: var(--md-code-bg-color);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.slide-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.slide-btn:hover { background: #303f9f; }
+
+/* ─── Slide quiz widget ───────────────────────────────────────────── */
+
+.quiz {
+  margin: 1.2em 0;
+  padding: 1em;
+  border-left: 4px solid var(--md-primary-fg-color, #3f51b5);
+  background: rgba(63, 81, 181, 0.06);
+  border-radius: 4px;
+}
+
+.quiz-question {
+  font-weight: bold;
+  margin: 0 0 0.8em 0;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 0.4em 0;
+  padding: 0.5em 1em;
+  font-size: 0.75em;
+  font-family: inherit;
+  line-height: 1.4;
+  background: var(--md-default-bg-color, #fff);
+  color: var(--md-default-fg-color, #333);
+  border: 1px solid var(--md-default-fg-color--lightest, #ccc);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.quiz-option:hover {
+  background: var(--md-primary-fg-color, #3f51b5);
+  color: var(--md-primary-bg-color, #fff);
+  border-color: var(--md-primary-fg-color, #3f51b5);
+}
+
+.quiz-option.quiz-correct {
+  background: #43a047 !important;
+  color: #fff !important;
+  border-color: #43a047 !important;
+}
+
+.quiz-option.quiz-wrong {
+  background: #e53935 !important;
+  color: #fff !important;
+  border-color: #e53935 !important;
+}
+
+.quiz-feedback {
+  margin: 0.8em 0 0 0;
+  font-size: 0.75em;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+.quiz-correct-text {
+  color: #43a047;
+}
+
+.quiz-wrong-text {
+  color: #e53935;
+}
+
+.recall {
+  border-left: 3px solid var(--md-default-fg-color--lightest);
+  padding: 0.3em 0.8em;
+  margin: 0.6em 0;
+  background: rgba(0, 0, 0, 0.03);
+  font-size: 0.6em;
+}
+/* docs/stylesheets/extra.css */
+.left-align mjx-container[display="true"] {
+  text-align: left !important;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5em;
+  align-items: start;
+  margin: 0.5em 0;
+}
+
+.two-col > div {
+  min-width: 0;    /* prevents overflow in the narrower column */
+}
+
+/* Slightly smaller math in two-column mode to fit the narrower width */
+.two-col mjx-container[display="true"] {
+  font-size: 0.85em;
+}
+
+.reveal .font-lg table,  .reveal .md table{
+  font-size: inherit;
+  padding: inherit;
+}
+
+.reveal .font-lg {
+  font-size: 1.15em;
+}
+
+.reveal .md th, 
+.reveal .md td {
+  padding: 8px !important;
+  font-size: 1em;
+}
+
+.reveal .compact p {
+  margin: 8px;
+  font-size: medium;
+}
+
+
