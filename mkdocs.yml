@@ -1,0 +1,109 @@
+site_name: ECEG-5202 - Operating Systems
+site_description: BSc Electrical Engineering (Computer) · Semester VII · Module Data Storage and Analysis
+site_author: Dr. Tesfamichael Gebregziabher
+site_url: https://tesfamichael-g.github.io/ECEG-5202-Operating Systems/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - navigation.tracking
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  icon:
+    logo: material/file-tree
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Syllabus: syllabus.md
+  - Schedule: schedule.md
+  - Chapters:
+      - 1. Introduction: chapters/01-introduction.md
+      - 2. Processes: chapters/02-processes.md
+      - 3. CPU Scheduling: chapters/03-cpu-scheduling.md
+      - 4. Inter-Process Communication: chapters/04-ipc-synchronization.md
+      - 5. Deadlocks: chapters/05-deadlocks.md
+      - 6. Memory Management: chapters/06-memory-management.md
+      - 7. File Systems: chapters/07-file-systems.md
+      - 8. I/O Management: chapters/08-io-management.md
+      - 9. Introduction to Security: chapters/09-security.md
+  - Slides:
+      - 1. Introduction: slides/01-introduction.md
+      - 2. Processes: slides/02-processes.md
+      - 3. CPU Scheduling: slides/03-cpu-scheduling.md
+      - 4. Inter-Process Communication: slides/04-ipc-synchronization.md
+      - 5. Deadlocks: slides/05-deadlocks.md
+      - 6. Memory Management: slides/06-memory-management.md
+      - 7. File Systems: slides/07-file-systems.md
+      - 8. I/O Management: slides/08-io-management.md
+      - 9. Introduction to Security: slides/09-security.md
+  - Solutions:
+      - Overview: solutions/index.md
+      - 1. Introduction: solutions/01-introduction.md
+      - 2. Processes: solutions/02-processes.md
+      - 3. CPU Scheduling: solutions/03-cpu-scheduling.md
+      - 4. Inter-Process Communication: solutions/04-ipc-synchronization.md
+      - 5. Deadlocks: solutions/05-deadlocks.md
+      - 6. Memory Management: solutions/06-memory-management.md
+      - 7. File Systems: solutions/07-file-systems.md
+      - 8. I/O Management: solutions/08-io-management.md
+      - 9. Introduction to Security: solutions/09-security.md
+  - Exam Bank: exam-bank.md
+  - Assessment: assessment.md
+  - Resources: resources.md
+  - Feedback: feedback.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.arithmatex:
+      generic: true
+      inline_syntax: ['dollar', 'round']
+      block_syntax: ['dollar', 'square']
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

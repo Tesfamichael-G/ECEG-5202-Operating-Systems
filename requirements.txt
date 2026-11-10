@@ -1,0 +1,4 @@
+mkdocs-material==9.5.3
+mkdocs
+pymdown-extensions==10.11.2
+mkdocs-revealjs
